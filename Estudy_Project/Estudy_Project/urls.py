@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from accounts import views
+
+
+# TEMPLATE TAGGING
+
 
 urlpatterns = [
+    path('acc/', include('accounts.urls')),
     path('admin/', admin.site.urls),
 ]
