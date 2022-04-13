@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<style>
+.postPage{
+    background-color: #F1F1F1;
+    text-align: center;
+    padding: 20px;
+}
+</style>
+
+{% block title %}
+  Estudy
+{% endblock  %}
+
+
+{% block contact %}
+  <h1>Welcome To Home Page!</h1>
+  <section id ="latest-posts">
+    <h2>My latest Thouhghts</h2>
+    <ul>
+      {% for post in posts %}
+        {% include 'include/post.html' %}
+      {% endfor %}
+    </ul>
+  </section>
+
+
+  <section id ="latest-posts">
+    <div class="postPage">
+      <form method="POST">
+        {% csrf_token %}
+        <label for="title">Title:{{create.title}}</label>  
+        <br>
+        <label for="content">Text:{{create.content}}</label>  
+        <br>
+        <input type="submit" value="Post">
+      </form>
+  </div>
+</section>
+{% endblock  %}

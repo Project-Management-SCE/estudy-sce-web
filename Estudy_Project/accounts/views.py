@@ -1,38 +1,49 @@
-from django.shortcuts import render
-from accounts.forms import NewStudentForm
-
+import email
+from django.shortcuts import render, redirect
+from django.http import HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
+from accounts.form import UserForm
+from accounts.models import Student, Lecturer
+from django import forms
 # Create your views here.
 
 
-def index(req):
-    print("Hey hey hey")
-    return render(req, 'accounts/thankYou.html')
+def index(request):
+    return render(request, 'accounts/thankYou.html')
 
 
-def log_in(req):
-    return render(req, 'accounts/LogIn.html')
+def log_in(request):
+    return render(request, 'accounts/LogIn.html')
 
 
-def signUp(req):
-    form = NewStudentForm()
-    if req.method == 'POST':
-        fullName = req.POST['name']
-        email = req.POST['email']
-        password = req.POST['pass']
-        verify_pass = req.POST['re_pass']
-
-        data = {'fullname': fullName,
-                'email': email,
-                'password': password,
-                'verify_pass': password,
-                }
-        print(data)
-        print("\n\n\n\n\n\n\n")
+def signUp(request):
+    form = UserForm()
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+       
         if form.is_valid():
-            form.save(commit=True)
-            print("SUCCSESS")
-            return index(req)
-        else:
-            print("ERROR!")
+          
+            if form.data['role'] == 'student':
+                
+                student = Student(name=form.cleaned_data['name'],email=form.cleaned_data['email'],password = form.cleaned_data['password'])
+                student.save()
+                return redirect('accounts:thank-you')
 
-    return render(req, 'accounts/signup.html', {'form': form})
+            elif form.data['role'] == 'lecturer':
+                lecturer = Lecturer()
+                return redirect(reverse('accounts:thank-you'))
+        
+        return render(request, 'accounts/signup.html',{
+        'user': form
+        })
+                    
+    return render(request, 'accounts/signup.html',{
+        'user': form
+    })
+
+
+
+
+def thankyou(request):
+    return render(request,"accounts/thankYou.html")
