@@ -18,10 +18,9 @@ from django.urls import path, include
 
 # TEMPLATE TAGGING
 
-
 urlpatterns = [
-
-    path('', include('HomePage.urls')),
-    path('accounts/',include('accounts.urls')),
-    path('admin/', admin.site.urls),
+    path('home/',include("HomePage.urls")),
+    path('acoounts/', include("django.contrib.auth.urls")),
+    path('register/',include('accounts.urls')),
+    path('admin/', admin.site.urls, name='admin-site-url'),
 ]

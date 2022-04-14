@@ -1,41 +1,113 @@
 {% extends 'base.html' %}
 {% load static %}
 
-<style>
-.postPage{
-    background-color: #F1F1F1;
-    text-align: center;
-    padding: 20px;
-}
-</style>
+{% block links %}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <link rel="stylesheet" href="{% static 'css/post.css' %}">
+{% endblock links %}
+
+{% block username %}
+
+{% if user.is_authenticated %}
+    <h12>Hi {{ user.username }} </h12>
+  {% endif %}
+{% endblock %}
+
+
+{% block style %}
+  <style>
+    .postPage{
+        background-color: #F1F1F1;
+        text-align: center;
+        padding: 20px;
+    }
+    h1{
+      background-color: #F1F1F1;
+      text-align: center;
+      padding: 20px;
+    }
+    #latest-posts{
+      margin-top: 150px;
+    }
+    #es-img{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 60%;
+    }
+
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    .leftcolumn {   
+      float: left;
+      width: 75%;
+    }
+    .card {
+      background-color: white;
+      padding: 20px;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .header {
+      padding: 20x;
+      text-align: center;
+    }
+    #mainH1{
+      background-color: #a98000;
+      text-align: center;
+      padding: 20px;
+    }
+
+  </style>
+{% endblock  %}
+
 
 {% block title %}
   Estudy
 {% endblock  %}
 
-
-{% block contact %}
-  <h1>Welcome To Home Page!</h1>
-  <section id ="latest-posts">
-    <h2>My latest Thouhghts</h2>
-    <ul>
-      {% for post in posts %}
-        {% include 'include/post.html' %}
-      {% endfor %}
-    </ul>
+{% block content %}
+  
+  <section>
+    <div class ="postPage">    
+      <img src="{% static 'images/ES.png' %}" alt="" id="es-img">
+    </div>
   </section>
 
 
-  <section id ="latest-posts">
-    <div class="postPage">
-      <form method="POST">
-        {% csrf_token %}
-        <label for="title">Title:{{create.title}}</label>  
-        <br>
-        <label for="content">Text:{{create.content}}</label>  
-        <br>
-        <input type="submit" value="Post">
-      </form>
-  </div>
-</section>
+  <section id ="">
+      <div class="header">
+        <h1 id ="mainH1"><b>הודעות המערכת</b></h1>
+      </div>
+
+    <table>
+      <td>
+      {% for post in posts %}
+        {% include 'include/post.html' %}
+      {% endfor %}
+      <td>
+    </table>
+  </section>
+
+
+  {% if user.is_superuser %}
+    <section id ="latest-posts">
+      <div class="postPage">
+        <form method="POST">
+          {% csrf_token %}
+          <label for="title">Title:{{create.title}}</label>  
+          <br>
+          <label for="description">Description:{{create.description}}</label>  
+          <br>
+          <input type="submit" value="Post">
+        </form>
+    </div>
+  </section>
+
+
+
+{% endif %}
 {% endblock  %}
