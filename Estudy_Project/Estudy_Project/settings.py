@@ -26,6 +26,9 @@ SECRET_KEY = 'django-insecure-$j+#%6nk5kuvsii6#je5#q!xwrb3e@)^-&9rmzd25$-edp1@fo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+AUTH_USER_MODEL = 'accounts.User'
+
 ALLOWED_HOSTS = []
 
 
@@ -40,7 +43,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'HomePage',
+    'DetailsAccount',
+    'category',
+    'phonenumber_field',
+    'star_ratings',
+    'forum',
+    'captcha',
+    'YouTube',
 ]
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,6 +84,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Estudy_Project.wsgi.application'
+
 
 
 # Database
@@ -140,7 +154,19 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+
+MEDIA_ROOT = BASE_DIR / 'static/upload'
+MEDIA_URL = "/upload/"
+
 LOGIN_REDIRECT_URL = "HomePage:home"
 LOGOUT_REDIRECT_URL = "HomePage:home"
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+STAR_RATINGS_RERATE = True
+
+# GOOGLE_API_KEY = "AIzaSyDBcuON7FOgCjoShKP8IdD3bCkUeXc-O3M"
+RECAPTCHA_PUBLIC_KEY = "6Le5CJEfAAAAACuE9OLsAhzPb5rrNFGr4FZdlVf4"
+RECAPTCHA_PRIVATE_KEY = "6Le5CJEfAAAAAFnHoQav2eiq0l8Dh5_foagL4UAL"
+
+
+YOUTUBE_DATA_API_KEY = "AIzaSyB8y7m6JoevtDQai4vCH0VzTejuEy-EiSQ"

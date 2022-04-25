@@ -1,49 +1,66 @@
-import email
+
 from django.shortcuts import render, redirect
-from django.http import HttpResponseNotFound
-from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from accounts.form import UserForm
-from accounts.models import Student, Lecturer
-from django import forms
+from django.views import View
+from django.views.generic import CreateView
+from django.contrib.auth import authenticate, login
+
+from .form import StudentUserCreationForm, LecturerUserCreationForm
+from accounts.models import Student, Lecturer, User
 # Create your views here.
 
+# class signStudentView(CreateView):
+#     model = User
+#     form_class = StudentUserCreationForm
+#     template_name = "accounts/signupStudent.html"
+    
 
-def index(request):
-    return render(request, 'accounts/thankYou.html')
+#     def form_invalid(self, form):
+#       user = form.save()
+#       login(self.request, user)
+#       return redirect("HomePage:home")
 
+class signStudentView(View):
+    def get(self,request):
+        form = StudentUserCreationForm()
+        context = {'form': form,}
+        return render(request,"accounts/signupStudent.html",context)
 
-def log_in(request):
-    return render(request, 'accounts/LogIn.html')
-
-
-def signUp(request):
-    form = UserForm()
-    if request.method == 'POST':
-        form = UserForm(request.POST)
-       
+    def post(self,request):
+        form = StudentUserCreationForm(request.POST)
         if form.is_valid():
-          
-            if form.data['role'] == 'student':
-                
-                student = Student(name=form.cleaned_data['name'],email=form.cleaned_data['email'],password = form.cleaned_data['password'])
-                student.save()
-                return redirect('accounts:thank-you')
-
-            elif form.data['role'] == 'lecturer':
-                lecturer = Lecturer()
-                return redirect(reverse('accounts:thank-you'))
-        
-        return render(request, 'accounts/signup.html',{
-        'user': form
-        })
-                    
-    return render(request, 'accounts/signup.html',{
-        'user': form
-    })
+            user = form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('Details:d-s',user.id)
+        else:
+            print("UN SUCCESS")
+            return render(request,"accounts/signupStudent.html",{'form': form})
 
 
+class signLectureView(View):
+    def get(self,request):
+        form = LecturerUserCreationForm()
+        return render(request,"accounts/signupLecture.html",{'form': form})
+         
+    def post(self,request):
+       form = LecturerUserCreationForm(request.POST)
+       if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('Details:d-l',user.id)
+       else:
+            print("UN SUCCESS")
+            return render(request,"accounts/signupLecture.html",{'form': form})
 
 
-def thankyou(request):
-    return render(request,"accounts/thankYou.html")
+def signUp(request):   
+    return render(request, 'accounts/signup.html')
+
+
+

@@ -15,12 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from django.conf.urls.static import static
+from django.conf import settings
 # TEMPLATE TAGGING
 
 urlpatterns = [
-    path('home/',include("HomePage.urls")),
+    path('',include("HomePage.urls")),
     path('acoounts/', include("django.contrib.auth.urls")),
     path('register/',include('accounts.urls')),
     path('admin/', admin.site.urls, name='admin-site-url'),
-]
+    path('details/',include('DetailsAccount.urls')),
+    path('category/',include('category.urls')),
+    path('ratings/', include('star_ratings.urls', namespace='ratings')),
+    path('forum/',include('forum.urls')),
+    path('youtube/',include('YouTube.urls')),
+    
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

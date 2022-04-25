@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load ratings %}
+{% block links %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+  <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+  <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+{% endblock  %}
+
+{% block style %}
+  <style>
+    h1{
+      text-align: center;
+    }
+    h3{
+      text-align: center;
+    }
+    
+  </style>
+{% endblock style %}
+
+
+{% block content %}
+<div class="container">
+  <h1>{{course}} סרטונים</h1>
+  <div class="row">
+    {% for video in videos %}
+    <div class="col-md-6 ">
+      <div class="card">
+        <div class="card-image">
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe width="280" height="157" src="https://www.youtube.com/embed/{{video.IdVideo}}" frameborder="0" allowfullscreen></iframe>
+            <div class="content">
+            </div><!--end div class content-->
+          </div><!--End Div embed-responsive-->
+        </div>
+        <!-- card image -->
+        <div class="card-content">
+          <p style="text-align: center;"><h3>{{video.title}}</h3></p>
+          <div class="col text-center">  
+            {% ratings video %}           
+             {% if user.id == hw.user.id or user.is_superuser%}
+             <br>
+             <a style="color:red" href="">Delete Video</a>
+             {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>    
+    {% endfor %}  
+  </div><!--end row-->
+
+</div><!--end container-->
+
+
+{% endblock  %}
+<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
