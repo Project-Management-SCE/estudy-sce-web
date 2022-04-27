@@ -147,4 +147,38 @@ pointer-events: none;
 
 
 {% block content %}
+ <div class="filters">
+    {% block Save_Up %}
+    {% endblock Save_Up %}
+    <form action="" method="post">
+      {% csrf_token %}
+      <div class="box">
+        {{form.kind_of}}
+        <span style="padding-left:10px">
+        <label for="">חומר</label>
+        <span style="padding-left:40px">
+        {{form.semester}}
+        <span style="padding-left:10px">
+        <label for="">סמסטר</label>
+        <span style="padding-left:40px">
+        {{form.year}}
+        <span style="padding-left:10px">
+        <label id="Year" for="">שנה</label>
+
+        <span style="padding-left:40px">
+        {{form.department}}
+        <span style="padding-left:10px">
+        <label for="">מחלקה</label>
+      </div>
+      <br>
+      <br>
+      {% block buttons %}
+      <button type="submit" class="btn btn-info">Search</button>
+      {% if user.is_lecturer and user.permissions or user.is_superuser%}
+      <button type="submit" class="btn btn-success"><a style="color: white; text-decoration: none;" href="{% url 'Category:create-course' %}">Create Folder</a></button>
+      {% endif %}
+      {% endblock buttons %}
+    </form>
+  </div>
+  <hr> 
 {% endblock %}
