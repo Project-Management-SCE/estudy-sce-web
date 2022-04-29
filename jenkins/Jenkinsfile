@@ -14,14 +14,14 @@ pipeline {
 			sh 'python -m pip install -r requirements.txt'
 		}
                     dir("Estudy_Project") {
+			sh 'pip install django-phonenumber-field'
 			sh 'pip install django-recaptcha'
 			sh 'pip install django-star-ratings'
 			sh 'pip install coverage'
 			sh 'python manage.py makemigrations'
 			sh 'python manage.py migrate'
 		}
-	       	    sh 'pip install django-phonenumber-field'
-	  	    sh 'pip install django-phonenumbers'
+	       	    
                     sh 'python -m pip install django==2.1.15'
                 }
             }
@@ -34,7 +34,7 @@ pipeline {
             }
             steps{
                 withEnv(["HOME=${env.WORKSPACE}"]){
-			 sh 'python -m compileall TEAM_15_ESTUDY//'//manage.py'
+			 sh 'python -m compileall TEAM_15_ESTUDY//'
                     	 sh 'pip install django_jenkins'
                 }
             }
