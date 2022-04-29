@@ -14,9 +14,9 @@ pipeline {
 			sh 'python -m pip install -r requirements.txt'
 		}
                     dir("Estudy_Project") {
-			sh 'pip install django-phonenumber-field'
-			sh 'pip install django-recaptcha'
-			sh 'pip install django-star-ratings'
+// 			sh 'pip install django-phonenumber-field'
+// 			sh 'pip install django-recaptcha'
+// 			sh 'pip install django-star-ratings'
 			sh 'pip install coverage'
 			sh 'python manage.py makemigrations'
 			sh 'python manage.py migrate'
