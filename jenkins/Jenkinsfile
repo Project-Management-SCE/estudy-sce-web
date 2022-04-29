@@ -37,7 +37,7 @@ pipeline {
                 }
             }
         }
-        stage('Tests'){
+        stage('Run Unit Tests'){
             agent{
                 docker{
                     image 'python:3.7'
@@ -46,11 +46,38 @@ pipeline {
             steps{
 		 withEnv(["HOME=${env.WORKSPACE}"]){
 		    dir("Estudy_Project"){
-			   sh 'python -m coverage run manage.py test'
-			   sh 'python -m coverage report'
+			   sh 'python -m coverage run -a manage.py test --tag=unit-test'
                     }
 		}
             }
          }
+	 stage('Run Integration Tests') {
+	     agent{
+                docker{
+                    image 'python:3.7'
+                }
+            }
+            steps {
+	  	 withEnv(["HOME=${env.WORKSPACE}"]){
+			dir("Estudy_Project") {
+		     	 	sh "python -m coverage run -a manage.py test --tag=integration-test"
+		    	}
+		 }
+	     }
+        }
+	stage('Coverage Report'){
+		agent{
+                docker{
+                    image 'python:3.7'
+                }
+            }
+            steps {
+		withEnv(["HOME=${env.WORKSPACE}"]){
+			dir("Estudy_Project") {
+		     	 	sh "python -m coverage report"
+		    	}	     
+		}
+	    }
+	}	    
     }
 }
