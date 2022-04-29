@@ -210,7 +210,9 @@ class LoginViewTest(TestCase):
     def setUp(self):
         self.credentials = {
             'username': 'testuser',
-            'password': '5t4r3e2w1q'}
+            'password': '5t4r3e2w1q',
+            'email':'testadmin@estudy.com',
+        }
         User.objects.create_superuser(**self.credentials)
 
     @tag('integration-test')
