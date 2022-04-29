@@ -15,7 +15,6 @@ pipeline {
 		}
                     dir("Estudy_Project") {
 			sh 'pip install django-recaptcha'
-			sh 'python manage.py migrate --fake'
 			sh 'python manage.py makemigrations'
 			sh 'python manage.py migrate'
 		}
