@@ -61,6 +61,6 @@ Twisted==20.3.0
 txaio==20.4.1
 typed-ast==1.4.1
 unittest-xml-reporting==3.0.2
-urllib3==1.25.9
+urllib3==1.26.5
 wrapt==1.12.1
 zope.interface==5.1.0
