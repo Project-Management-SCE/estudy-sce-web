@@ -16,6 +16,7 @@ pipeline {
                     dir("Estudy_Project") {
 			sh 'pip install django-recaptcha'
 			sh 'pip install django-phonenumber-field'
+			sh 'pip install coverage'
 			sh 'python manage.py makemigrations'
 			sh 'python manage.py migrate'
 		}
@@ -45,7 +46,7 @@ pipeline {
             steps{
 		 withEnv(["HOME=${env.WORKSPACE}"]){
 		    dir("Estudy_Project"){
-			   sh 'python -m coverage run manage.py test'
+			   sh 'python -m coverage run manage.py test && coverage report'
                     }
 		}
             }
