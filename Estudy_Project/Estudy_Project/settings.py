@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'accounts',
     'HomePage',
     'DetailsAccount',
+    'phonenumbers',
     'phonenumber_field',
     'star_ratings',
     'captcha',
