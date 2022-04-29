@@ -44,12 +44,9 @@ INSTALLED_APPS = [
     'accounts',
     'HomePage',
     'DetailsAccount',
-    'category',
     'phonenumber_field',
     'star_ratings',
-    'forum',
     'captcha',
-    'YouTube',
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
