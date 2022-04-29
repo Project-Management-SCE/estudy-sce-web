@@ -1,7 +1,9 @@
-from django.test import TestCase
+from django.test import TestCase, tag
 from accounts.models import User, Student, Lecturer
-# Create your tests here.
+from accounts.views import signUp, signStudentView , signLectureView
+from django.urls import resolve, reverse
 
+@tag('unit-test')
 class StudentTestCase(TestCase):
   def setUp(self):
       user = User.objects.create(username="Dana",is_student=True, is_lecturer=False, permissions=True)
@@ -45,7 +47,7 @@ class StudentTestCase(TestCase):
       self.assertEqual(karim.permissions,True)
       self.assertEqual(marina.permissions,True)
       self.assertEqual(hadas.permissions,True)
-
+ 
   def test_is_student(self):
       dana = User.objects.get(username="Dana")
       yosi = User.objects.get(username="Yosi")
@@ -64,7 +66,7 @@ class StudentTestCase(TestCase):
 
   
 
-
+@tag('unit-test')
 class LecturerTestCase(TestCase):
     def setUp(self):
       user = User.objects.create(username="Dana",is_student=True, is_lecturer=False, permissions=True)
@@ -111,7 +113,7 @@ class LecturerTestCase(TestCase):
       self.assertEqual(hadas.is_lecturer,True)
 
 
-
+@tag('integration-test')
 class LogInTest(TestCase):
     def setUp(self):
         self.credentials = {
@@ -156,7 +158,7 @@ class LogInTest(TestCase):
 
 
 
-
+@tag('integration-test')
 class LogOutTest(TestCase):
   def setUp(self):
         self.credentials = {
@@ -185,3 +187,68 @@ class LogOutTest(TestCase):
 
 
 
+@tag('unit-test')
+class URLTestCase(TestCase):
+    def setUp(self):
+      self.user = User.objects.create(username="Dana",is_student=True, is_lecturer=False, permissions=True)
+    
+    def test_signUp_url(self):
+        url = reverse('accounts:signup')
+        self.assertEqual(resolve(url).func ,signUp)
+    
+    def test_signupStudent_url(self):
+        url = reverse('accounts:si-student')
+        self.assertEqual(resolve(url).func.view_class ,signStudentView)
+    
+    def test_signupLecture_url(self):
+        url = reverse('accounts:si-lecture')
+        self.assertEqual(resolve(url).func.view_class ,signLectureView)
+
+
+class LoginViewTest(TestCase): 
+
+    def setUp(self):
+        self.credentials = {
+            'username': 'testuser',
+            'password': '5t4r3e2w1q'}
+        User.objects.create_superuser(**self.credentials)
+
+    @tag('integration-test')
+    def test_login_and_logout_admin(self):
+        #Arrange
+        login_form_data = {'username': 'testuser', 'password': '5t4r3e2w1q'}
+
+        #Act
+        response = self.client.post(reverse('login'), data=login_form_data, follow=True)
+
+        #Assert
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, reverse('HomePage:home'))
+        self.assertTrue(response.context['user'].is_authenticated)
+
+        #Act
+        response = self.client.post('/acoounts/logout/', follow=True)
+
+        #Assert
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context["user"].is_authenticated) 
+
+    @tag('integration-test')
+    def test_login_and_logout_user(self):
+        self.credentials = {
+            'username': 'lectureruser',
+            'password': '5t4r3e2w1q',
+            }
+        User.objects.create_user(**self.credentials)
+        #Act
+        response = self.client.post('/acoounts/login/', self.credentials, follow=True)
+        #Assert
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, reverse('HomePage:home'))
+        self.assertTrue(response.context['user'].is_authenticated)
+
+        #Act
+        response = self.client.post('/acoounts/logout/', follow=True)
+        #Assert
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context['user'].is_authenticated)
