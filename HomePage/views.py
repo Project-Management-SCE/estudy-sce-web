@@ -23,26 +23,6 @@ class indexView(View):
     return redirect('HomePage:home')
 
 
-class searchView(View):
-  def get(self,request):
-    return render(request,'search.html')
-
-  def post(self,request):
-    id = request.POST['search']
-    if Student.objects.filter(ID=id).exists():
-      student = Student.objects.get(ID=id)
-      user = User.objects.filter(id=student.user.id)[0]
-      user_form = UserForm()
-      return render(request,'search.html',{'form':student, 'form_user':user, 'user_form':user_form})
-    elif Lecturer.objects.filter(ID=id).exists():
-      lecturer = Lecturer.objects.get(ID=id)
-      user = User.objects.filter(id=lecturer.user.id)[0]
-      user_form = UserForm()
-      return render(request,'search.html',{'form':lecturer,'form_user':user,'user_form':user_form})
-    return render (request,'search.html',{'error':"User no found"})
-
-
-
 class aboutView(View):
   def get(self,request):
     return render(request,"about.html")
@@ -60,26 +40,3 @@ def updatePost(request,post_id):
         return redirect('HomePage:home')
     return render(request,'accounts/update.html',{'form':form})
 
-
-
-
-class DownPermissions(View):
-  def post(self,request,user_id):
-    user = get_object_or_404(User, pk=user_id) 
-    form = UserForm(request.POST or None, instance=user)
-    if form.is_valid():
-        form.permissions = False
-        form.save()
-        return redirect('HomePage:search-user')
-    return redirect('HomePage:search-user')
-
-
-class UpPermissions(View):
-  def post(self,request,user_id):
-    user = get_object_or_404(User, pk=user_id) 
-    form = UserForm(request.POST or None, instance=user)
-    if form.is_valid():
-        form.permissions = True
-        print(form.save())
-        return redirect('HomePage:search-user')
-    return redirect('HomePage:search-user')
