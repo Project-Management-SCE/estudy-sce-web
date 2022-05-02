@@ -1,4 +1,3 @@
-
 pipeline {
   agent none
     stages{
@@ -15,13 +14,11 @@ pipeline {
 			sh 'python -m pip install -r requirements.txt'
 		}
                     dir("Estudy_Project") {
-// 			sh 'pip install django-phonenumber-field'
-// 			sh 'pip install django-recaptcha'
-// 			sh 'pip install django-star-ratings'
-			sh 'pip install coverage'
-			sh 'python manage.py makemigrations'
-			sh 'python manage.py migrate'
-		}
+
+			            sh 'pip install coverage'
+			            sh 'python manage.py makemigrations'
+			            sh 'python manage.py migrate'
+		            }
 	       	    
                     sh 'python -m pip install django==2.1.15'
                 }
@@ -47,73 +44,72 @@ pipeline {
                 }
             }
             steps{
-		 withEnv(["HOME=${env.WORKSPACE}"]){
-		    dir("Estudy_Project"){
-			   sh 'python -m coverage run -a manage.py test --tag=unit-test'
+		         withEnv(["HOME=${env.WORKSPACE}"]){
+		            dir("Estudy_Project"){
+			            sh 'python -m coverage run -a manage.py test --tag=unit-test'
                     }
-		}
+		        }
             }
          }
-	 stage('Run Integration Tests') {
-	     agent{
+	    stage('Run Integration Tests') {
+	        agent{
                 docker{
                     image 'python:3.7'
                 }
             }
             steps {
-	  	 withEnv(["HOME=${env.WORKSPACE}"]){
-			dir("Estudy_Project") {
-		     	 	sh "python -m coverage run -a manage.py test --tag=integration-test"
-		    	}
-		 }
-	     }
+	  	        withEnv(["HOME=${env.WORKSPACE}"]){
+			            dir("Estudy_Project") {
+		     	 	        sh "python -m coverage run -a manage.py test --tag=integration-test"
+		    	        }
+		        }
+	        }
         }
-	stage('Coverage Report'){
-		agent{
+
+	    stage('Coverage Report'){
+            agent{
+                    docker{
+                        image 'python:3.7'
+                    }
+                }
+            steps {
+		        withEnv(["HOME=${env.WORKSPACE}"]){
+			        dir("Estudy_Project") {
+				        sh 'python -m coverage report --ignore-errors'
+		    	    }	     
+		        }
+	        }
+	    }
+	    stage('Metric 1 - pylint python code convention') {
+		    agent{
                 docker{
                     image 'python:3.7'
                 }
-            }
-            steps {
-		withEnv(["HOME=${env.WORKSPACE}"]){
-			dir("Estudy_Project") {
-				sh 'python -m coverage report --ignore-errors'
-		    	}	     
-		}
-	    }
-	}
-	stage('Metric 1 - pylint python code convention') {
-		agent{
-                	docker{
-                    		image 'python:3.7'
-                	}
-           	 }
-		steps {
-			withEnv(["HOME=${env.WORKSPACE}"]){
-				dir("Estudy_Project") {
-					sh 'pip install pylint'
-					sh 'python -m pylint --exit-zero Estudy_Project'
+           	}
+		    steps {
+			    withEnv(["HOME=${env.WORKSPACE}"]){
+				    dir("Estudy_Project") {
+					    sh 'pip install pylint'
+					    sh 'python -m pylint --exit-zero Estudy_Project'
 					}
 				}
 			}
 		}
-    	}
-// 	stage('Metric 2- unit test coverage') {
-// 		agent{
-//                 	docker{
-//                     		image 'python:3.7'
-//                 	}
-//            	 }
-// 		steps {
-// 			withEnv(["HOME=${env.WORKSPACE}"]) {
-// 				dir("Estudy_Project")  {
-// 					sh 'python -m coverage xml -o ./test_reports/coverage.xml'
-// 					sh 'python -m coverage report --fail-under=20'
-// 				}
-// 			}
-// 		}
-	}
+	    stage('Metric 2- unit test coverage') {
+		    agent{
+                docker{
+                    image 'python:3.7'
+                }
+           	}
+		    steps {
+			    withEnv(["HOME=${env.WORKSPACE}"]) {
+				    dir("Estudy_Project")  {
+					    sh 'python -m coverage xml -o ./test_reports/coverage.xml'
+					    sh 'python -m coverage report --fail-under=20'
+				    }
+			    }
+		    }
+	    }
+
     }
 }
-
-
