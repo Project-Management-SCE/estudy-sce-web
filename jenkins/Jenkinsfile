@@ -99,15 +99,20 @@ pipeline {
 		}
     	}
 	stage('Metric 2- unit test coverage') {
-			steps {
-				withEnv(["HOME=${env.WORKSPACE}"]) {
-					dir("Estudy_Project")  {
-						sh 'python -m coverage xml -o ./test_reports/coverage.xml'
-						sh 'python -m coverage report --fail-under=20'
-					}
+		agent{
+                	docker{
+                    		image 'python:3.7'
+                	}
+           	 }
+		steps {
+			withEnv(["HOME=${env.WORKSPACE}"]) {
+				dir("Estudy_Project")  {
+					sh 'python -m coverage xml -o ./test_reports/coverage.xml'
+					sh 'python -m coverage report --fail-under=20'
 				}
 			}
 		}
+	}
 }
 
 
