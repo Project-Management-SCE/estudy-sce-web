@@ -1,6 +1,10 @@
 
 pipeline {
-   agent none
+  agent {
+		docker {
+			image 'python:3.6.10-buster'
+		}
+	}
     stages{
         stage('Install requirements'){
             agent{
