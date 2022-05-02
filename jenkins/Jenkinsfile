@@ -91,6 +91,7 @@ pipeline {
 		steps {
 			withEnv(["HOME=${env.WORKSPACE}"]){
 				dir("Estudy_Project") {
+					sh 'pip install pylint'
 					sh 'python -m pylint Estudy_Project'
 					}
 				}
