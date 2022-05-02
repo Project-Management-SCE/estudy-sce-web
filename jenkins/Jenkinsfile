@@ -88,8 +88,8 @@ pipeline {
 	}
 	stage('Metric 2 - pylint python code convention') {
 		steps {
-			dir("Estudy_Project") {
-				withEnv(["HOME=${env.WORKSPACE}"]) {
+			withEnv(["HOME=${env.WORKSPACE}"]){
+				dir("Estudy_Project") {
 					sh 'python -m pylint Estudy_Project'
 					}
 				}
