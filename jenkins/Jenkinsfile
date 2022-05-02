@@ -82,15 +82,15 @@ pipeline {
 		}
 	    }
 	}
-// 	stage('Metric 2 - pylint python code convention') {
-// 		steps {
-// 			dir("Estudy_Project") {
-// 				withEnv(["HOME=${env.WORKSPACE}"]) {
-// 					sh 'python -m pylint Estudy_Project'
-// 					}
-// 				}
-// 			}
-// 		}
+	stage('Metric 2 - pylint python code convention') {
+		steps {
+			dir("Estudy_Project") {
+				withEnv(["HOME=${env.WORKSPACE}"]) {
+					sh 'python -m pylint Estudy_Project'
+					}
+				}
+			}
+		}
 		
 // 	stage('Metric 3 - Test Trend Chart') {
 // 		steps {
