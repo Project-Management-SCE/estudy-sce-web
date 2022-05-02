@@ -107,7 +107,7 @@ pipeline {
 					   sh "python -m coverage run -a manage.py test"
 				    }
 				    dir("Estudy_Project")  {
-					  junit allowEmptyResults: true, testResults: 'test_reports/unittest.xml'
+					  junit allowEmptyResults: true, testResults: 'test_reports/coverage.xml'
 				    }
 			    }
 		    }
