@@ -7,7 +7,7 @@ from category.views import CategoryView,HomeWorksView,UploadFileView,deleteFile
 # Create your tests here.
 
 ######################################################################
-tag('unit-test')
+@tag('unit-test')
 class CourseTest(TestCase):
   def setUp(self):
     self.course = Course.objects.create(name_course="testCourse")
@@ -28,7 +28,7 @@ class CourseTest(TestCase):
       self.assertEqual(self.course.name_course,"testCourse")
 
 
-tag('unit-test')
+@tag('unit-test')
 class HomeWorkTest(TestCase):
     def setUp(self):
       self.user = User.objects.create(username="nameTest")
@@ -52,12 +52,12 @@ class HomeWorkTest(TestCase):
 
     def test_homework_Notexsits(self):
         self.assertFalse(HomeWork.objects.filter(pk=1111).exists(), False)
-    
+
     def test_homework_exsits(self):
         self.assertTrue(HomeWork.objects.filter(pk=self.hw.id).exists,True)
 ######################################################################
 
-tag('unit-test')
+@tag('unit-test')
 class ProfileAppsTestCase(TestCase):
     def test_apps_name(self):
         #Assert
@@ -78,28 +78,27 @@ class CategoryUrlsTest(TestCase):
       self.course = Course.objects.create(name_course="testCourse")
       self.hw = HomeWork.objects.create(user=self.user, course=self.course,nameFile="hwTest")
 
-    @tag('unit-test')
+
     def test_showCategory(self):
         #Act
         url = reverse('Category:cat',kwargs = {'user_id':self.user.id})
         #Assert
         self.assertEqual(resolve(url).func.view_class, CategoryView)
-    @tag('unit-test')
+
     def test_showHomeWork(self):
         #Act
         url = reverse('Category:homework', kwargs={'course_id':self.course.id, 'user_id':self.user.id})
         #Assert
         self.assertEqual(resolve(url).func.view_class, HomeWorksView)
     
-    @tag('unit-test')
+
     def test_showUploadFileView(self):
         #Act
         url = reverse('Category:u-f', kwargs={'course_id':self.course.id ,'user_id':self.user.id})
         #Assert
         self.assertEqual(resolve(url).func.view_class, UploadFileView)
        
-
-    @tag('unit-test')
+      
     def test_showdeleteFile(self):
         #Act
         url = reverse('Category:delete-file',kwargs={'course_id':self.course.id, 'hw_id':self.hw.id})
