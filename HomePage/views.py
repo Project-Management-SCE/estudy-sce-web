@@ -43,6 +43,7 @@ def updatePost(request,post_id):
   
   
   
+
 class DownPermissions(View):
   def post(self,request,user_id):
     user = get_object_or_404(User, pk=user_id) 
@@ -54,3 +55,12 @@ class DownPermissions(View):
     return redirect('HomePage:search-user')
 
 
+class UpPermissions(View):
+  def post(self,request,user_id):
+    user = get_object_or_404(User, pk=user_id) 
+    form = UserForm(request.POST or None, instance=user)
+    if form.is_valid():
+        form.permissions = True
+        print(form.save())
+        return redirect('HomePage:search-user')
+    return redirect('HomePage:search-user')
