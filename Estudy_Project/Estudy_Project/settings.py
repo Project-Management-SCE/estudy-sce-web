@@ -96,12 +96,15 @@ if 'test' in sys.argv:
         }
     }
 else:
-    DATABASES = {
+   DATABASES = {
             'default': {
                 'ENGINE': 'djongo',
                 'NAME': 'Estudy',
                 'CLIENT': {
-                    'host': 'mongodb+srv://Estudy:5t4r3e2w1q@cluster0.yuqzy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+                    'host': 'mongodb+srv://Estudy:5t4r3e2w1q@cluster0.yuqzy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+                    'username': 'Estudy',
+                    'password': '5t4r3e2w1q',
+                    'authMechanism': 'SCRAM-SHA-1'
                 }  
             }
     }
