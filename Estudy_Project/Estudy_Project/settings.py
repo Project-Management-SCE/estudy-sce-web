@@ -9,9 +9,9 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
 from pathlib import Path
 import os
+import sys
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
@@ -41,14 +41,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_phonenumbers',
     'accounts',
     'HomePage',
     'DetailsAccount',
-    'phonenumbers',
+    'category',
     'phonenumber_field',
     'star_ratings',
+    'forum',
     'captcha',
+    'YouTube',
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
@@ -89,14 +90,23 @@ WSGI_APPLICATION = 'Estudy_Project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(BASE_DIR / 'db.sqlite3'),
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'mydatabase'
+        }
     }
-}
-
-
+else:
+    DATABASES = {
+            'default': {
+                'ENGINE': 'djongo',
+                'NAME': 'Estudy',
+                'CLIENT': {
+                    'host': 'mongodb+srv://Estudy:5t4r3e2w1q@cluster0.yuqzy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+                }  
+            }
+    }
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 

@@ -25,5 +25,9 @@ urlpatterns = [
     path('register/',include('accounts.urls')),
     path('admin/', admin.site.urls, name='admin-site-url'),
     path('details/',include('DetailsAccount.urls')),
+    path('category/',include('category.urls')),
     path('ratings/', include('star_ratings.urls', namespace='ratings')),
-] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    path('forum/',include('forum.urls')),
+    path('youtube/',include('YouTube.urls')),
+    
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
