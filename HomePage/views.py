@@ -40,3 +40,17 @@ def updatePost(request,post_id):
         return redirect('HomePage:home')
     return render(request,'accounts/update.html',{'form':form})
 
+  
+  
+  
+class DownPermissions(View):
+  def post(self,request,user_id):
+    user = get_object_or_404(User, pk=user_id) 
+    form = UserForm(request.POST or None, instance=user)
+    if form.is_valid():
+        form.permissions = False
+        form.save()
+        return redirect('HomePage:search-user')
+    return redirect('HomePage:search-user')
+
+
