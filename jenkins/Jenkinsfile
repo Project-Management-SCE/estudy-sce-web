@@ -104,7 +104,7 @@ pipeline {
 		    steps {
 			    withEnv(["HOME=${env.WORKSPACE}"]) {
 				    dir("Estudy_Project")  {
-					   sh 'python -m radon cc -s .
+					   sh 'python -m radon cc -s .'
 				    }				
 			    }
 		    }
