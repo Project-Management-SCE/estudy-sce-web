@@ -89,8 +89,11 @@ pipeline {
 		    steps {
 			    withEnv(["HOME=${env.WORKSPACE}"]){
 				    dir("Estudy_Project") {
+					    sh 'pip install black'
 					    sh 'pip install pylint'
-					    sh 'python -m pylint --exit-zero Estudy_Project'
+					    sh 'python -m black Estudy_Project accounts DetailsAccount HomePage category'
+					    sh 'python -m pylint Estudy_Project accounts category DetailsAccount HomePage --load-plugins=pylint_django'
+// 					    sh 'python -m pylint --exit-zero Estudy_Project'
 					}
 				}
 			}
