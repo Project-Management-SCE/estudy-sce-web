@@ -6,3 +6,4 @@ app_name = "Forum"
 urlpatterns = [
     path("", views.forumView.as_view(), name="forum-main"),
 ]
+
