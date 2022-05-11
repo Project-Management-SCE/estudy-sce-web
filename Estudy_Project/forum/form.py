@@ -17,3 +17,5 @@ class PostForumForm(forms.ModelForm):
                 }
             )
         }
+
+        
