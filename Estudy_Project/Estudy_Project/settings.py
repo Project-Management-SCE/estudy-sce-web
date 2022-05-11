@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'star_ratings',
     'captcha',
+    'forum',
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
