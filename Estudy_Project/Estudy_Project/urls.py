@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin-site-url'),
     path('details/',include('DetailsAccount.urls')),
     path('category/',include('category.urls')),
+    path("forum/", include("forum.urls")),
     path('ratings/', include('star_ratings.urls', namespace='ratings')),
     
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
