@@ -8,14 +8,14 @@ Automat==20.2.0
 autopep8==1.5.2
 bson==0.5.8
 certifi==2020.4.5.1
-cffi==1.14.0
+
 channels==2.4.0
 channels-redis==2.4.2
 chardet==3.0.4
 colorama==0.4.3
 constantly==15.1.0
 coverage==5.0.4
-cryptography==3.3.2
+
 daphne==2.5.0
 dataclasses==0.6
 Django==2.2.20
