@@ -6,3 +6,4 @@ CMD ["python", "manage.py","makemigrations"]
 CMD ["python", "manage.py","migrate"]
 CMD ["python", "manage.py","runserver"]
 EXPOSE 8000
+
