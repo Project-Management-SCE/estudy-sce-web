@@ -1,0 +1,76 @@
+argon2-cffi==21.3.0
+argon2-cffi-bindings==21.2.0
+asgiref @ file:///tmp/build/80754af9/asgiref_1625643473416/work
+astroid @ file:///opt/concourse/worker/volumes/live/0a6e6368-0831-4a84-577d-f57d6f278a8b/volume/astroid_1639044240452/work
+bcrypt==3.2.0
+cachetools==2.1.0
+certifi==2018.8.24
+cffi==1.15.0
+chardet==3.0.4
+click==8.1.2
+coverage==6.3.2
+Django==3.0.5
+django-braces==1.15.0
+django-jenkins==0.110.0
+django-model-utils==4.2.0
+django-phonenumber-field==6.1.0
+django-phonenumbers==1.0.1
+django-recaptcha==3.0.0
+django-star-ratings==0.9.2
+djongo==1.3.3
+dnspython==2.2.1
+Faker==13.3.4
+flake8==4.0.1
+flake8-polyfill==1.0.2
+google-api-python-client==1.7.4
+google-auth==1.5.1
+google-auth-httplib2==0.0.3
+google-auth-oauthlib==0.2.0
+httplib2==0.11.3
+idna==2.7
+importlib-metadata==4.11.3
+isort @ file:///tmp/build/80754af9/isort_1628603791788/work
+Jinja2==3.1.1
+jsonpickle==1.0
+lazy-object-proxy @ file:///opt/concourse/worker/volumes/live/a169db40-97bf-4f51-6893-dc751f705b7b/volume/lazy-object-proxy_1616529067444/work
+livereload==2.6.3
+Markdown==3.3.6
+MarkupSafe==2.1.1
+mccabe @ file:///opt/conda/conda-bld/mccabe_1644221741721/work
+mkdocs==1.0.4
+oauth2client==4.1.3
+oauthlib==2.1.0
+pep8==1.7.1
+pep8-naming==0.12.1
+phonenumbers==8.12.46
+Pillow==9.1.0
+platformdirs @ file:///tmp/build/80754af9/platformdirs_1638968569495/work
+psycopg2 @ file:///opt/concourse/worker/volumes/live/7541fe58-2a45-4073-5d69-313e733fc729/volume/psycopg2_1612298592535/work
+pyasn1==0.4.4
+pyasn1-modules==0.2.2
+pycodestyle==2.8.0
+pycparser==2.21
+pyflakes==2.4.0
+pykerberos==1.2.4
+pylint @ file:///opt/concourse/worker/volumes/live/aaa53491-633e-481c-7c8f-884180b0baa6/volume/pylint_1647959893398/work
+pymongo==3.12.3
+python-dateutil==2.8.2
+python-snappy==0.6.1
+pytz==2018.5
+PyYAML==6.0
+requests==2.19.1
+requests-oauthlib==1.0.0
+rsa==4.0
+six==1.11.0
+sqlparse==0.2.4
+swapper==1.3.0
+toml @ file:///tmp/build/80754af9/toml_1616166611790/work
+tornado==6.1
+typing_extensions @ file:///opt/conda/conda-bld/typing_extensions_1647553014482/work
+Unipath==1.1
+uritemplate==3.0.0
+urllib3==1.23
+whitenoise==6.0.0
+wrapt @ file:///opt/concourse/worker/volumes/live/99094902-9e15-4318-5ab0-ee253b90775d/volume/wrapt_1638433872602/work
+youtube-django==0.2.1
+zipp==3.8.0
