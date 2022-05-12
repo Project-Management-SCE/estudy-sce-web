@@ -4,15 +4,15 @@ pipeline {
         stage('Install requirements'){
             agent{
                 docker{
-                    image 'python:3.7'
-// 		    image 'cimg/base:stable'
+//                     image 'python:3.7'
+		    image 'cimg/base:stable'
 		    args '-u root'
                 }
             }
             steps{
                 withEnv(["HOME=${env.WORKSPACE}"]){
                     dir("jenkins") {
-			sh 'python -m pip install --upgrade pip --user'
+// 			sh 'python -m pip install --upgrade pip --user'
 			sh 'python -m pip install -r requirements.txt'
 		}
                     dir("Estudy_Project") {
