@@ -15,3 +15,12 @@ class forumView(View):
                 "form_post": form_post,
             },
         )
+    def post(self, request, user_id):
+        form = PostForumForm(request.POST)
+        if form.is_valid():
+            user = User.objects.get(pk=user_id)
+            post = Post.objects.create(
+                user=user, title="", message=form.cleaned_data["message"]
+            )
+            post.save()
+        return redirect("Forum:forum-main")
