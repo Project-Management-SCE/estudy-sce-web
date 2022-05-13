@@ -71,7 +71,7 @@ pipeline {
             }
             steps{
 		         withEnv(["HOME=${env.WORKSPACE}"]){
-		            
+		            	    sh 'pip install django-environ'
 			            sh 'python -m coverage run -a manage.py test --tag=unit-test'
                     }
 		        
@@ -85,7 +85,7 @@ pipeline {
             }
             steps {
 	  	        withEnv(["HOME=${env.WORKSPACE}"]){
-			            
+			            	sh 'pip install django-environ'
 		     	 	        sh "python -m coverage run -a manage.py test --tag=integration-test"
 		    	        
 		        }
@@ -100,7 +100,7 @@ pipeline {
                 }
             steps {
 		        withEnv(["HOME=${env.WORKSPACE}"]){
-			        
+			        	sh 'pip install django-environ'
 				        sh 'python -m coverage report --ignore-errors'
 		    	    	     
 		        }
@@ -114,7 +114,7 @@ pipeline {
            	}
 		    steps {
 			    withEnv(["HOME=${env.WORKSPACE}"]){
-				   
+				   	    sh 'pip install django-environ'
 					    sh 'pip install black'
 					    sh 'pip install pylint'
 					    sh 'python -m black Estudy_Project accounts DetailsAccount HomePage category'
@@ -132,7 +132,7 @@ pipeline {
            	}
 		    steps {
 			    withEnv(["HOME=${env.WORKSPACE}"]) {
-				    
+				    	   sh 'pip install django-environ'
 					   sh 'python -m radon cc -s . -a'
 				    				
 			    }
