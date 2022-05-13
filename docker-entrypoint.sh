@@ -20,4 +20,4 @@ python manage.py migrate
 python manage.py clearsessions
 # Start server
 echo "Starting server on PORT:$PORT"
-python manage.py runserver 0.0.0.0:$PORT
+python Estudy_Project/manage.py runserver 0.0.0.0:$PORT
