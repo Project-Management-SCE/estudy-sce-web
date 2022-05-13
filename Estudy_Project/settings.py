@@ -13,6 +13,10 @@ from pathlib import Path
 import os
 import sys
 
+import environ
+
+
+env = environ.Env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
@@ -22,18 +26,31 @@ STATIC_DIR = os.path.join(BASE_DIR, "static")
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-$j+#%6nk5kuvsii6#je5#q!xwrb3e@)^-&9rmzd25$-edp1@fo"
+
+
+# SECRET_KEY = "django-insecure-$j+#%6nk5kuvsii6#je5#q!xwrb3e@)^-&9rmzd25$-edp1@fo"
+
+SECRET_KEY = env('DJANGO_SECRET_KEY',
+                 default='django-insecure-$j+#%6nk5kuvsii6#je5#q!xwrb3e@)^-&9rmzd25$-edp1@fo')
+
+# SECRET_KEY = os.environ.get('SECRET_KEY', default='foo')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
+# DEBUG = True
+# DEBUG = int(os.environ.get('DEBUG', default=0))
+DEBUG = env.bool("DJANGO_DEBUG", True)
+
 
 
 AUTH_USER_MODEL = "accounts.User"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'estudy-sce.herokuapp.com']
 
 
 # Application definition
+
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -105,6 +122,9 @@ else:
             },
         }
     }
+
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -150,6 +170,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     STATIC_DIR,
@@ -174,3 +195,5 @@ RECAPTCHA_PUBLIC_KEY = "6Le5CJEfAAAAACuE9OLsAhzPb5rrNFGr4FZdlVf4"
 RECAPTCHA_PRIVATE_KEY = "6Le5CJEfAAAAAFnHoQav2eiq0l8Dh5_foagL4UAL"
 
 
+
+YOUTUBE_DATA_API_KEY = "AIzaSyB8y7m6JoevtDQai4vCH0VzTejuEy-EiSQ"
