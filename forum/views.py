@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views import View
-from forum.form import PostForumForm
+from forum.form import PostForumForm, CommentForm
 from forum.models import Post
 from accounts.models import User
 
