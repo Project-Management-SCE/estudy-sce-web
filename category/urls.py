@@ -10,3 +10,4 @@ urlpatterns = [
     path("del/<course_id>", views.deleteCourse, name="delete-course"),
     path('delfile/<course_id>/<hw_id>',views.deleteFile ,name="delete-file"),
 ]
+
