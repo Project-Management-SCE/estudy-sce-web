@@ -78,6 +78,17 @@ class UploadFileView(View):
             return redirect('Category:homework',course_id ,user_id)
         return render(request,"upload_file.html",{'form':form})
 
+
+
+      
+      
+def deleteCourse(request, course_id):
+    course = Course.objects.get(pk=course_id)
+    course.delete()
+    return redirect("Category:cat", request.user.id)
+
+   
+      
 def deleteFile(request,course_id,hw_id ):
   hw = HomeWork.objects.get(pk=hw_id)
   hw.delete()
