@@ -37,3 +37,18 @@ def PostComments(request, user_id, post_id):
             )
             comment.save()
     return redirect("Forum:forum-main")
+
+
+
+@user_passes_test(is_lecturer_or_is_superuser)
+def DeletePost(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    post.delete()
+    return redirect("Forum:forum-main")
+
+
+@user_passes_test(is_lecturer_or_is_superuser)
+def DeleteComment(request, comment_id):
+    comment = Comment.objects.get(pk=comment_id)
+    comment.delete()
+    return redirect("Forum:forum-main")
