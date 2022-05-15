@@ -16,7 +16,7 @@ pipeline {
 			sh 'python -m pip uninstall -r requirements.txt --yes'    
 			sh 'python -m pip install -r requirements.txt'
 		}
-                   
+                                    sh 'pip install pytz'
 			            sh 'pip install coverage'
 			            sh 'python manage.py makemigrations'
 			            sh 'python manage.py migrate'
