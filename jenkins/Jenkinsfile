@@ -13,14 +13,15 @@ pipeline {
                 withEnv(["HOME=${env.WORKSPACE}"]){
                     dir("jenkins") {
 			sh 'python -m pip install --upgrade pip --user'
+			sh 'python -m pip uninstall -r requirements.txt'
 			sh 'python -m pip install -r requirements.txt'
 		}
-                    dir("Estudy_Project") {
+                    
 
 			            sh 'pip install coverage'
 			            sh 'python manage.py makemigrations'
 			            sh 'python manage.py migrate'
-		            }
+		            
                     sh 'python -m pip install django==2.1.15'
 			
 // 		    sh '''
@@ -31,24 +32,7 @@ pipeline {
 //                 	'''	
                 }
             }
-        }    
-	 stage('Deploy to Heroku'){
-            agent{
-                docker{
-		    image 'cimg/base:stable'
- 		    args '-u root'
-                }
-            }
-            steps{		
-		    sh '''
-                    	curl https://cli-assets.heroku.com/install.sh | sh;
-                    	heroku container:login
-                    	heroku container:push web --app estudy-sce
-                    	heroku container:release web --app estudy-sce
-                	'''	
-	    }   
-            
-        }      
+        }       
 	       
         stage('Compile'){
             agent{
@@ -71,10 +55,10 @@ pipeline {
             }
             steps{
 		         withEnv(["HOME=${env.WORKSPACE}"]){
-		            dir("Estudy_Project"){
+		            	    sh 'pip install django-environ'
 			            sh 'python -m coverage run -a manage.py test --tag=unit-test'
                     }
-		        }
+		        
             }
          }
 	    stage('Run Integration Tests') {
@@ -85,9 +69,9 @@ pipeline {
             }
             steps {
 	  	        withEnv(["HOME=${env.WORKSPACE}"]){
-			            dir("Estudy_Project") {
+			            	sh 'pip install django-environ'
 		     	 	        sh "python -m coverage run -a manage.py test --tag=integration-test"
-		    	        }
+		    	        
 		        }
 	        }
         }
@@ -100,9 +84,9 @@ pipeline {
                 }
             steps {
 		        withEnv(["HOME=${env.WORKSPACE}"]){
-			        dir("Estudy_Project") {
+			        	sh 'pip install django-environ'
 				        sh 'python -m coverage report --ignore-errors'
-		    	    }	     
+		    	    	     
 		        }
 	        }
 	    }
@@ -114,13 +98,13 @@ pipeline {
            	}
 		    steps {
 			    withEnv(["HOME=${env.WORKSPACE}"]){
-				    dir("Estudy_Project") {
+				   	    sh 'pip install django-environ'
 					    sh 'pip install black'
 					    sh 'pip install pylint'
 					    sh 'python -m black Estudy_Project accounts DetailsAccount HomePage category'
 					    sh 'python -m pylint --exit-zero Estudy_Project accounts category DetailsAccount HomePage --load-plugins=pylint_django'
 // 					    sh 'python -m pylint --exit-zero Estudy_Project'
-					}
+					
 				}
 			}
 		}
@@ -132,12 +116,30 @@ pipeline {
            	}
 		    steps {
 			    withEnv(["HOME=${env.WORKSPACE}"]) {
-				    dir("Estudy_Project")  {
+				    	   sh 'pip install django-environ'
 					   sh 'python -m radon cc -s . -a'
-				    }				
+				    				
 			    }
 		    }
 	    }
+	    
+	    stage('Deploy to Heroku'){
+		    agent{
+			docker{
+			    image 'cimg/base:stable'
+			    args '-u root'
+			}
+		    }
+		    steps{		
+			    sh '''
+				curl https://cli-assets.heroku.com/install.sh | sh;
+				heroku container:login
+				heroku container:push web --app estudy-sce
+				heroku container:release web --app estudy-sce
+				'''	
+		    }   
+            
+        	}      
 
     }
 }
