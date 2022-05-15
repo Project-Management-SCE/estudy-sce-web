@@ -35,8 +35,13 @@ class forumView(View):
             post.save()
         return redirect("Forum:forum-main")
 
+<<<<<<< HEAD
 
     
+=======
+   
+   
+>>>>>>> cf1ceec (fix)
 def PostComments(request, user_id, post_id):
     if request.method == "POST":
         form = CommentForm(request.POST)
