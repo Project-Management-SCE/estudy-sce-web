@@ -46,7 +46,7 @@ DEBUG = env.bool("DJANGO_DEBUG", True)
 
 AUTH_USER_MODEL = "accounts.User"
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'estudy-sce.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'estudy-sce.herokuapp.com', 'estudy1.herokuapp.com']
 
 
 # Application definition
@@ -197,3 +197,4 @@ RECAPTCHA_PRIVATE_KEY = "6Le5CJEfAAAAAFnHoQav2eiq0l8Dh5_foagL4UAL"
 
 
 YOUTUBE_DATA_API_KEY = "AIzaSyB8y7m6JoevtDQai4vCH0VzTejuEy-EiSQ"
+
