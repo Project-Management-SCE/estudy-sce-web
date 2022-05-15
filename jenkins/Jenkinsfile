@@ -4,8 +4,7 @@ pipeline {
         stage('Install requirements'){
             agent{
                 docker{
-		   docker system prune -a
-
+		    sh 'docker system prune -a'
 	            image 'python:3.7'
 		    //image 'cimg/base:stable'
 // 		    args '-u root'
