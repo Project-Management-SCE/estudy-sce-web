@@ -13,13 +13,18 @@ def is_lecturer_or_is_superuser(user):
 class forumView(View):
     def get(self, request):
         form_post = PostForumForm()
+        form_comment = CommentForm()
+        all_posts = Post.objects.prefetch_related("comment_set")
         return render(
             request,
             "fourm.html",
             {
                 "form_post": form_post,
+                "all_posts": all_posts,
+                "form_comment": form_comment,
             },
         )
+
     def post(self, request, user_id):
         form = PostForumForm(request.POST)
         if form.is_valid():
@@ -29,6 +34,7 @@ class forumView(View):
             )
             post.save()
         return redirect("Forum:forum-main")
+
 
     
 def PostComments(request, user_id, post_id):
