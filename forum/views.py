@@ -24,3 +24,16 @@ class forumView(View):
             )
             post.save()
         return redirect("Forum:forum-main")
+
+    
+def PostComments(request, user_id, post_id):
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            user = User.objects.get(pk=user_id)
+            post = Post.objects.get(pk=post_id)
+            comment = Comment.objects.create(
+                user=user, post=post, message=form.cleaned_data["message"]
+            )
+            comment.save()
+    return redirect("Forum:forum-main")
