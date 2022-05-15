@@ -5,6 +5,11 @@ from forum.form import PostForumForm, CommentForm
 from forum.models import Post
 from accounts.models import User
 
+def is_lecturer_or_is_superuser(user):
+    return user.is_lecturer or user.is_superuser
+
+
+
 class forumView(View):
     def get(self, request):
         form_post = PostForumForm()
