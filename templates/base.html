@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 
-{{student}}
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -78,10 +77,10 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto"> 
               {% if user.is_authenticated %}
+         
                   <p class="nav-link active" aria-current="page" href="" id="userName"><b>{{user.username}}</b></p>
                   <a class="nav-link" href="{% url 'HomePage:about' %}"><b>about</b></a>
                   <a class="nav-link" href="{% url 'logout' %}"><b>log out</b></a>
-                  <a class="nav-link" href="{% url 'YouTube:youtube' %}"><b>YouTube Search</b></a>
                   
                 {% if request.user.is_student %}
                   <a class="nav-link" href="{% url 'Details:d-s' request.user.id %}"><b>Settings</b></a> 
@@ -91,7 +90,6 @@
                   <a class="nav-link" href="{% url 'Details:d-l' request.user.id %}"><b>Settings</b></a>
                   <a class="nav-link" href="{% url 'Category:cat' request.user.id %}"><b>Category</b></a> 
                   {% else %}
-                  <a class="nav-link" href="{% url 'Forum:forum-main'%}"><b>Forum</b></a> 
                   <a class="nav-link" href="{% url 'Category:cat' request.user.id %}"><b>Category</b></a> 
                   <a class="nav-link" href="/admin"><b>Admin Zone</b></a> 
                   <a class="nav-link" href="{% url 'HomePage:search-user' %}"><b>Search User</b></a>
