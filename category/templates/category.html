@@ -204,12 +204,21 @@ pointer-events: none;
           <br>
           {{folder.semester}}
           <br>
+          <label for="">סוג חומר</label>
+          <br>
+          {{folder.kind_of}}
+          <br>
         </div>
         <button type="submit" class="btn btn-dark">Create</button>
       </div>
     </form>
     {% endif %}
     {% endblock createFolder %}
+    {% if error %}
+      <div class="alert alert-danger" role="alert">
+        {{error}}
+      </div>
+    {% endif %}
    
 
   {% block all_coursesYo %}
