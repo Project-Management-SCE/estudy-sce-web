@@ -188,13 +188,17 @@ pointer-events: none;
       <div class="filters">
         {% csrf_token %}
         <div class="check">
-          <label for="">שם הקורס</label>
-          <br>
-          {{folder.name_course}}
+           <label for="">שם הקורס</label>
           <br>
           {{folder.name_course}}
           <br>
           <label for="">בחר מחלקה</label>
+          <br>
+          {{folder.department}}
+          <br>
+          <label for="">בחר שנה</label>
+          <br>
+          {{folder.year}}
           <br>
         </div>
         <button type="submit" class="btn btn-dark">Create</button>
