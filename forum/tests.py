@@ -1,5 +1,4 @@
 from datetime import datetime
-from email import message
 from django.test import TestCase, tag
 from django.urls import resolve, reverse
 from forum.views import forumView
