@@ -10,6 +10,3 @@ urlpatterns = [
     path("delete/<int:post_id>/", views.DeletePost, name="delete-po"),
     path("delComment/<int:comment_id>/", views.DeleteComment, name="delete-co"),
 ]
-
-
-
