@@ -18,7 +18,7 @@ class PostForumForm(forms.ModelForm):
             )
         }
 
-        
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
