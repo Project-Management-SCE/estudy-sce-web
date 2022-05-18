@@ -470,12 +470,12 @@ p{
           {{form_post.message}}
           <button>Post</button>
         </form>
-      </section>
+      </section>  
     </div>
   </div>
   <hr>
 </div>
-
+  
   {% comment %} Publish the post! {% endcomment %}
   <div class="row" style="margin-left: 150px;">
     {% for post in all_posts %}
@@ -532,7 +532,7 @@ p{
                   </div>
                 </form>
               </div>
-              {% for comment in post.comment_set.all %}
+              {% for comment in post.comment_set.all %}   
               <div class="bg-light p-2">
                 {% comment %} COMMENTS PER POST {% endcomment %}
                 <div class="mt-2">
@@ -546,7 +546,7 @@ p{
                         <span class="date text-black-50">Shared publicly - {{comment.date}}</span>
                       </div>
                     </div>
-                  </div>
+                  </div>  
                   <p class="comment-text">{{comment.message|linebreaks}}</p>
                 </div>
                 <div class="d-flex flex-row fs-12">
@@ -568,9 +568,9 @@ p{
         </div>
       </div>
     </div>
-
+    
     {% endfor %}
   </div>
-
-
+  
+  
   {% endblock content %}
