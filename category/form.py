@@ -9,3 +9,7 @@ class CourseForm(forms.ModelForm):
     fields = ('department','year','semester','kind_of')
 
 
+class HomeWorkForm(forms.ModelForm):
+  class Meta:
+    model = HomeWork
+    fields = ('nameFile','file','course')
