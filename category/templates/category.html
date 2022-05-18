@@ -175,6 +175,9 @@ pointer-events: none;
       <br>
       {% block buttons %}
       <button type="submit" class="btn btn-info">Search</button>
+      {% if user.is_lecturer and user.permissions or user.is_superuser%}
+        <button type="submit" class="btn btn-success"><a style="color: white; text-decoration: none;" href="{% url 'Category:create-course' %}">Create Folder</a></button>
+      {% endif %}
       {% endblock buttons %}
     </form>
   </div>
