@@ -2,12 +2,12 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views import View
 from forum.form import PostForumForm, CommentForm
-from forum.models import Post
+from forum.models import Post, Comment
 from accounts.models import User
+
 
 def is_lecturer_or_is_superuser(user):
     return user.is_lecturer or user.is_superuser
-
 
 
 class forumView(View):
@@ -35,7 +35,7 @@ class forumView(View):
             post.save()
         return redirect("Forum:forum-main")
 
-    
+
 def PostComments(request, user_id, post_id):
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -47,7 +47,6 @@ def PostComments(request, user_id, post_id):
             )
             comment.save()
     return redirect("Forum:forum-main")
-
 
 
 @user_passes_test(is_lecturer_or_is_superuser)
