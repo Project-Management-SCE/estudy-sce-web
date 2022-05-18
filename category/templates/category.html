@@ -182,7 +182,23 @@ pointer-events: none;
     </form>
   </div>
   <hr> 
-    
+    {% block createFolder %}
+    {% if folder %}
+    <form action="{% url 'Category:create-course' %}" method="post">
+      <div class="filters">
+        {% csrf_token %}
+        <div class="check">
+          <label for="">שם הקורס</label>
+          <br>
+          {{folder.name_course}}
+          <br>
+        </div>
+        <button type="submit" class="btn btn-dark">Create</button>
+      </div>
+    </form>
+    {% endif %}
+    {% endblock createFolder %}
+   
 
   {% block all_coursesYo %}
     {% if all_courses %}
