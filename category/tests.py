@@ -1,6 +1,7 @@
 from django.test import TestCase, tag
 from category.models import Course, HomeWork
 from category.models import User
+from category.form import CreatCourseForm, CourseForm
 from django.urls import resolve, reverse
 from category.apps import CategoryConfig
 from category.views import CategoryView,HomeWorksView,UploadFileView,deleteFile
@@ -104,3 +105,41 @@ class CategoryUrlsTest(TestCase):
         url = reverse('Category:delete-file',kwargs={'course_id':self.course.id, 'hw_id':self.hw.id})
         #Assert
         self.assertEqual(resolve(url).func, deleteFile)
+        
+        
+        
+        
+        
+class CreateCourseTest(TestCase):
+    def setUp(self):
+        self.credentials = {
+            "username": "LecturerUser",
+            "password": "5t4r3e2w1q",
+            "is_lecturer": True,
+        }
+        self.user = User.objects.create_user(**self.credentials)
+
+    @tag("unit-test")
+    def test_create(self):
+        response = self.client.get(reverse("Category:create-course"))
+        self.assertEqual(response.status_code, 200)
+    
+    @tag("unit-test")
+    def test_create_form(self):
+         response = self.client.get(reverse("Category:create-course"))
+         self.assertEqual(type(response.context["folder"]), CreatCourseForm)
+    
+    @tag("unit-test")
+    def test_create_course(self):
+         response = self.client.get(reverse("Category:create-course"))
+         self.assertEqual(type(response.context["form"]), CourseForm)
+    
+    @tag("unit-test")
+    def test_post_course(self):
+        # "department", "year", "semester", "name_course", "kind_of")
+        form_data = {"department": "1", "year": "1", "semester": "1", "name_course": "test", "kind_of":"1"}
+        response = self.client.post(
+            reverse("Category:create-course"), data=form_data
+        )
+        self.assertEqual(response.status_code, 302)
+        
