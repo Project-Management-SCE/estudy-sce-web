@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views import View
 from category.models import HomeWork
-from category.form import CourseForm, HomeWorkForm
+from category.form import CourseForm, HomeWorkForm, CreatCourseForm
 from category.models import Course
 from accounts.models import Student, User 
 
