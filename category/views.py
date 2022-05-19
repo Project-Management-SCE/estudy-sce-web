@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views import View
 from category.models import HomeWork
-from category.form import CourseForm, HomeWorkForm
+from category.form import CourseForm, HomeWorkForm, CreatCourseForm
 from category.models import Course
 from accounts.models import Student, User 
 
@@ -38,26 +38,43 @@ class CategoryView(View):
 
 
 class HomeWorksView(View):
-  def get(self,request,course_id,user_id):
-    if bool(request.GET):
-      value = request.GET['selecting']
-      if value == "1":
-        course = Course.objects.get(id=course_id)
-        homeworks = (HomeWork.objects.filter(course=course , ratings__isnull=False)).order_by('-ratings__average')
-        mylist = list(dict.fromkeys(homeworks))
-        return render(request,"HomeWorks.html",{'course':course,'homeworks':mylist})
-      elif value == "2":
-        course = Course.objects.get(id=course_id)
-        homeworks = (HomeWork.objects.filter(course=course)).order_by("-nameFile")
-        return render(request,"HomeWorks.html",{'course':course,'homeworks':homeworks})
-      else:
-        course = Course.objects.get(id=course_id)
-        homeworks = HomeWork.objects.filter(course=course)
-        return render(request,"HomeWorks.html",{'course':course,'homeworks':homeworks})
-    else:
-      course = Course.objects.get(id=course_id)
-      homeworks = HomeWork.objects.filter(course=course)
-    return render(request,"HomeWorks.html",{'course':course,'homeworks':homeworks})
+    def get(self, request, course_id, user_id):
+        if bool(request.GET):
+            value = request.GET["selecting"]
+            if value == "1":
+                course = Course.objects.get(id=course_id)
+                homeworks = (
+                    HomeWork.objects.filter(course=course, ratings__isnull=False)
+                ).order_by("-ratings__average")
+                mylist = list(dict.fromkeys(homeworks))
+                return render(
+                    request, "HomeWorks.html", {"course": course, "homeworks": mylist}
+                )
+            elif value == "2":
+                course = Course.objects.get(id=course_id)
+                homeworks = (HomeWork.objects.filter(course=course)).order_by(
+                    "-nameFile"
+                )
+                return render(
+                    request,
+                    "HomeWorks.html",
+                    {"course": course, "homeworks": homeworks},
+                )
+            else:
+                course = Course.objects.get(id=course_id)
+                homeworks = HomeWork.objects.filter(course=course)
+                return render(
+                    request,
+                    "HomeWorks.html",
+                    {"course": course, "homeworks": homeworks},
+                )
+        else:
+            course = Course.objects.get(id=course_id)
+            homeworks = HomeWork.objects.filter(course=course)
+        return render(
+            request, "HomeWorks.html", {"course": course, "homeworks": homeworks}
+        )
+
 
 
 class UploadFileView(View):
@@ -79,9 +96,20 @@ class UploadFileView(View):
         return render(request,"upload_file.html",{'form':form})
 
 
+class CreateCourseView(View):
+    def get(self, request):
+        form = CourseForm()
+        folder = CreatCourseForm()
+        return render(request, "category.html", {"folder": folder, "form": form, "test":"test"})
 
-      
-      
+    def post(self, request):
+        form = CreatCourseForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect("Category:cat", request.user.id)
+
+
+
 def deleteCourse(request, course_id):
     course = Course.objects.get(pk=course_id)
     course.delete()

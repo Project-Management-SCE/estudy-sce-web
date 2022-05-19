@@ -52,11 +52,11 @@
     text-decoration: none;
     font-family: 'Assistant', sans-serif;
   }
-  .box {  
-      
+  .box {
+
       padding-top: 2%;
       position: static;
-      left: 50%;   
+      left: 50%;
   }
   .box select {
     background-color: #0563af;
@@ -89,7 +89,7 @@
   label{
     font-size: 41px;
     font-family: 'Assistant', sans-serif;
-    font-family: 'Varela Round', sans-serif;    
+    font-family: 'Varela Round', sans-serif;
   }
 
   .alert{
@@ -204,16 +204,16 @@ select[multiple] {
 
   /*
    * Safari will not reveal an option
-   * unless the select height has room to 
+   * unless the select height has room to
    * show all of it
-   * Firefox and Chrome allow showing 
+   * Firefox and Chrome allow showing
    * a partial option
    */
   height: 6rem;
 
   option {
     white-space: normal;
-  
+
 
     // Only affects Chrome
     outline-color: var(--select-focus);
@@ -265,8 +265,12 @@ option{
         <h4 class="card-title text-center"> <a class="HomeWork" href="{{hw.file.url}}"><b>{{hw.nameFile}}</b></a></h4>
         <h5 class="card-title"></h5>
       </div>
-      <div class="col text-center">  
+      <div class="col text-center">
         {% ratings hw %}
+         {% if user.id == hw.user.id or user.is_superuser%}
+         <br>
+         <button type="button" class="btn btn-danger"><a style="color:white; text-decoration: none;" href="{% url 'Category:delete-file' course.id hw.id%}">Delete File</a></button>
+         {% endif %}
       </div>
         <br>
     </div>

@@ -59,11 +59,11 @@
   font-family: 'Assistant', sans-serif;
 }
 
-.box {  
-    
+.box {
+
     padding-top: 2%;
     position: static;
-    left: 50%;   
+    left: 50%;
 }
 .box select {
   background-color: #0563af;
@@ -96,18 +96,18 @@
 label{
   font-size: 41px;
   font-family: 'Assistant', sans-serif;
-  font-family: 'Varela Round', sans-serif;    
+  font-family: 'Varela Round', sans-serif;
 }
 
 .alert{
   text-align: center;
 }
 
-.check {  
-    
+.check {
+
   padding-top: 2%;
   position: static;
-  left: 50%;   
+  left: 50%;
 }
 .check select {
 background-color: #000;
@@ -175,12 +175,50 @@ pointer-events: none;
       <br>
       {% block buttons %}
       <button type="submit" class="btn btn-info">Search</button>
+      {% if user.is_lecturer and user.permissions or user.is_superuser%}
+      <button type="submit" class="btn btn-success"><a style="color: white; text-decoration: none;" href="{% url 'Category:create-course' %}">Create Folder</a></button>
+      {% endif %}
       {% endblock buttons %}
     </form>
   </div>
-  <hr> 
-    
-
+  <hr>
+    {% block createFolder %}
+    {% if folder %}
+    <form action="{% url 'Category:create-course' %}" method="post">
+      <div class="filters">
+        {% csrf_token %}
+        <div class="check">
+          <label for="">שם הקורס</label>
+          <br>
+          {{folder.name_course}}
+          <br>
+          <label for="">בחר מחלקה</label>
+          <br>
+          {{folder.department}}
+          <br>
+          <label for="">בחר שנה</label>
+          <br>
+          {{folder.year}}
+          <br>
+          <label for="">בחר סמסטר</label>
+          <br>
+          {{folder.semester}}
+          <br>
+          <label for="">סוג חומר</label>
+          <br>
+          {{folder.kind_of}}
+          <br>
+        </div>
+        <button type="submit" class="btn btn-dark">Create</button>
+      </div>
+    </form>
+    {% endif %}
+    {% endblock createFolder %}
+    {% if error %}
+      <div class="alert alert-danger" role="alert">
+        {{error}}
+      </div>
+    {% endif %}
   {% block all_coursesYo %}
     {% if all_courses %}
     <div class="row">
@@ -195,15 +233,15 @@ pointer-events: none;
                 {% else %}
                 <h4 class="card-title text-center"> <a class="Course" href="{% url 'Category:homework' course.id user.id %}"><b>{{course.name_course}}</b></a></h4>
                 {% endif %}
-                <h5 class="card-title"></h5>  
+                <h5 class="card-title"></h5>
               </div>
-              <div class="col text-center">   
+              <div class="col text-center">
               </div>
               <br>
             </div>
           </div>
           {% endfor %}
-          <hr> 
+          <hr>
         </div>
         {% endif %}
   {% endblock all_coursesYo %}
@@ -211,5 +249,3 @@ pointer-events: none;
     {% endblock Save_down %}
 
    {% endblock %}
-
-

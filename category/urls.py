@@ -8,6 +8,7 @@ urlpatterns = [
     path('course/<course_id>/<user_id>',views.HomeWorksView.as_view(), name="homework"),
     path('upload-file/<course_id>/<user_id>',views.UploadFileView.as_view(), name="u-f"),
     path("del/<course_id>", views.deleteCourse, name="delete-course"),
+    path("upload/", views.CreateCourseView.as_view(), name="create-course"),
     path('delfile/<course_id>/<hw_id>',views.deleteFile ,name="delete-file"),
 ]
 
