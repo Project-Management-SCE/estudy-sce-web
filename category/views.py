@@ -93,3 +93,18 @@ def deleteFile(request,course_id,hw_id ):
   hw = HomeWork.objects.get(pk=hw_id)
   hw.delete()
   return redirect('Category:homework',course_id, request.user.id)
+
+
+
+
+class CreateCourseView(View):
+    def get(self, request):
+        form = CourseForm()
+        folder = CreatCourseForm()
+        return render(request, "category.html", {"folder": folder, "form": form})
+
+    def post(self, request):
+        form = CreatCourseForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect("Category:cat", request.user.id)
