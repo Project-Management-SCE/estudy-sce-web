@@ -142,4 +142,32 @@ class CreateCourseTest(TestCase):
             reverse("Category:create-course"), data=form_data
         )
         self.assertEqual(response.status_code, 302)
+
         
+        
+        
+        
+        
+class HomeWorksTest(TestCase):
+    def setUp(self):
+        self.credentials = {
+            "username": "TestUser",
+            "password": "5t4r3e2w1q",
+            "is_student": True,
+        }
+        self.user = User.objects.create_user(**self.credentials)
+        self.course = Course.objects.create(name_course="testCourse")
+    
+    @tag("unit-test")
+    def test_select_option_one(self):
+        form_data = {"selecting":"1"}
+        response = self.client.get(reverse('Category:homework', kwargs={"course_id":self.course.id, "user_id":self.user.id}),data=form_data)
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.context["1"],"1")
+
+    @tag("unit-test")
+    def test_select_option_two(self):
+        form_data = {"selecting": "2"}
+        response = self.client.get(reverse('Category:homework', kwargs={"course_id":self.course.id, "user_id":self.user.id}),data=form_data)
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.context["2"],"2")
