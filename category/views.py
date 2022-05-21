@@ -39,8 +39,38 @@ class CategoryView(View):
 
 class HomeWorksView(View):
     def get(self, request, course_id, user_id):
-        course = Course.objects.get(id=course_id)
-        homeworks = HomeWork.objects.filter(course=course)
+        if bool(request.GET):
+            value = request.GET["selecting"]
+            if value == "1":
+                course = Course.objects.get(id=course_id)
+                homeworks = (
+                    HomeWork.objects.filter(course=course, ratings__isnull=False)
+                ).order_by("-ratings__average")
+                mylist = list(dict.fromkeys(homeworks))
+                return render(
+                    request, "HomeWorks.html", {"course": course, "homeworks": mylist}
+                )
+            elif value == "2":
+                course = Course.objects.get(id=course_id)
+                homeworks = (HomeWork.objects.filter(course=course)).order_by(
+                    "-nameFile"
+                )
+                return render(
+                    request,
+                    "HomeWorks.html",
+                    {"course": course, "homeworks": homeworks},
+                )
+            else:
+                course = Course.objects.get(id=course_id)
+                homeworks = HomeWork.objects.filter(course=course)
+                return render(
+                    request,
+                    "HomeWorks.html",
+                    {"course": course, "homeworks": homeworks},
+                )
+        else:
+            course = Course.objects.get(id=course_id)
+            homeworks = HomeWork.objects.filter(course=course)
         return render(
             request, "HomeWorks.html", {"course": course, "homeworks": homeworks}
         )

@@ -286,5 +286,17 @@ option{
 {% endif %}
     <button type="button" class="btn btn-danger"><a class="myA" href="{% url 'Category:cat' user.id %}">Back</a></button>
 </div>
+<div class="filters">
+  <form action="" method="PUT">
+      <div class="select">
+      {% csrf_token %}
+      <select id="standard-select" name='selecting'>
+        <option value="1">לפי דירוג</option>
+        <option value="2">לפי שם</option>
+      </select>
+      </div>
+      <button type="submit" class="btn btn-info">מיון</button>
+    </form>
+</div>
 
 {% endblock content %}

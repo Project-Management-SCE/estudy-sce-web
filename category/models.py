@@ -1,9 +1,11 @@
-import datetime
+
 from django.db import models
 from accounts.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from star_ratings.models import Rating
 # Create your models here.
+
+# Define your GrifFSStorage instance 
 
 DEPARTMENT_CHOICES = (
     ("1","הנדסת תוכנה"),
