@@ -121,7 +121,7 @@ pipeline {
 			    }
 		    }
 	    }
-	    stage('Metric 3- pyflakes python code') {
+	    stage('Metric 3- bandit python code') {
 		    agent{
 			docker{
 			    image 'python:3.7'
@@ -130,8 +130,8 @@ pipeline {
 		    steps {
 			    withEnv(["HOME=${env.WORKSPACE}"]) {
 				    	   sh 'pip install django-environ'
-				           sh 'pip install flake8'
-					   sh 'python -m flake8 --ignore E501,E800 .'
+				           sh 'pip install bandit'
+					   sh 'python -m bandit .'
 				    				
 			    }
 		    }
