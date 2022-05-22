@@ -121,7 +121,20 @@ pipeline {
 			    }
 		    }
 	    }
-	    
+	    stage('Metric 3- pyflakes python code') {
+		    agent{
+			docker{
+			    image 'python:3.7'
+			}
+           	}
+		    steps {
+			    withEnv(["HOME=${env.WORKSPACE}"]) {
+				    	   sh 'pip install django-environ'
+					   sh 'python -m pyflakes .'
+				    				
+			    }
+		    }
+	    }
 	    stage('Deploy to Heroku'){
 		    agent{
 			docker{
