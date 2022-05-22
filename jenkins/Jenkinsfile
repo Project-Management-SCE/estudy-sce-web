@@ -130,6 +130,7 @@ pipeline {
 		    steps {
 			    withEnv(["HOME=${env.WORKSPACE}"]) {
 				    	   sh 'pip install django-environ'
+				           sh 'pip install pyflakes'
 					   sh 'python -m pyflakes .'
 				    				
 			    }
