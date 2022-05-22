@@ -131,7 +131,7 @@ pipeline {
 			    withEnv(["HOME=${env.WORKSPACE}"]) {
 				    	   sh 'pip install django-environ'
 				           sh 'pip install bandit'
-					   sh 'python -m bandit -r .'
+					   sh 'python -m bandit .'
 				    				
 			    }
 		    }
