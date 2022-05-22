@@ -86,6 +86,7 @@
                   <a class="nav-link" href="{% url 'Details:d-s' request.user.id %}"><b>Settings</b></a> 
                   <a class="nav-link" href="{% url 'Category:cat' request.user.id %}"><b>Category</b></a> 
                 {% elif request.user.is_lecturer%}
+                  <a class="nav-link" href="{% url 'YouTube:youtube' %}"><b>YouTube Search</b></a>
                   <a class="nav-link" href="{% url 'Forum:forum-main'%}"><b>Forum</b></a> 
                   <a class="nav-link" href="{% url 'Details:d-l' request.user.id %}"><b>Settings</b></a>
                   <a class="nav-link" href="{% url 'Category:cat' request.user.id %}"><b>Category</b></a> 
