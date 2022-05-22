@@ -155,4 +155,26 @@
 {% endblock style %}
 
 {% block content %}
+  <div class="headerPage">
+      <hr>
+      <img src="{% static 'images/YE.png' %}" class="card__YE" alt="NoFound" />
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="input-group" style="justify-content: center">
+          <div class="form-outline">
+            <input id="search-input" type="search" id="form1" class="form-control" name="search" />
+            <label class="form-label" for="form1"><b>חיפוש סרטונים</b></label>
+            {% if Empty %}
+            <div class="alert alert-danger" role="alert">
+              {{Empty}}
+            </div>
+            {% endif %}
+          </div>
+          <button id="search-button" type="submit" class="btn btn-primary" style= "height: 39px;">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form>
+      <hr>
+  </div>
 {% endblock content %}
