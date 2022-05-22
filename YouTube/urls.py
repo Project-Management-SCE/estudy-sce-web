@@ -5,4 +5,5 @@ app_name = "YouTube"
 
 urlpatterns = [
     path("", views.SearchVideoView.as_view(), name="youtube"),
+    
 ]
