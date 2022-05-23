@@ -29,4 +29,5 @@ urlpatterns = [
     path("category/", include("category.urls")),
     path("forum/", include("forum.urls")),
     path("ratings/", include("star_ratings.urls", namespace="ratings")),
+    path("youtube/", include("YouTube.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

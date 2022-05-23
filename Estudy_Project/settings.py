@@ -91,6 +91,7 @@ INSTALLED_APPS = [
     "forum",
     "captcha",
     "gridfs_storage",
+    "YouTube",
 ]
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
