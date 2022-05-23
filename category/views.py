@@ -61,7 +61,9 @@ class HomeWorksView(View):
                 ).order_by("-ratings__average")
                 mylist = list(dict.fromkeys(homeworks))
                 return render(
-                    request, "HomeWorks.html", {"course": course, "homeworks": mylist}
+                    request,
+                    "HomeWorks.html",
+                    {"course": course, "homeworks": mylist, "1": "1"},
                 )
             elif value == "2":
                 course = Course.objects.get(id=course_id)
@@ -71,7 +73,7 @@ class HomeWorksView(View):
                 return render(
                     request,
                     "HomeWorks.html",
-                    {"course": course, "homeworks": homeworks},
+                    {"course": course, "homeworks": homeworks, "2": "2"},
                 )
             else:
                 course = Course.objects.get(id=course_id)
