@@ -3,38 +3,51 @@ from django.views import View
 from category.models import HomeWork
 from category.form import CourseForm, HomeWorkForm, CreatCourseForm
 from category.models import Course
-from accounts.models import Student, User 
-
-
+from accounts.models import Student, User
+from imagekitio import ImageKit
+import base64
+imagekit = ImageKit(
+    private_key='private_0InZG7wQykta/PjGyhg2Nk14fAw=',
+    public_key='public_wI6Gnx1NNvSxeDBJlqi27qErJO8=',
+    url_endpoint='https://ik.imagekit.io/zyae7okkm'
+)
 
 # Create your views here.
 
 
-
 class CategoryView(View):
-  def get(self,request,user_id):
-    form = CourseForm()
-    if request.user.is_student:
-        user = User.objects.get(pk=user_id)
-        student = Student.objects.get(user=user)
-        form = CourseForm(instance=student)
-    return render(request,"category.html",{'form':form})
+    def get(self, request, user_id):
+        form = CourseForm()
+        if request.user.is_student:
+            user = User.objects.get(pk=user_id)
+            student = Student.objects.get(user=user)
+            form = CourseForm(instance=student)
+        return render(request, "category.html", {"form": form})
 
-  def post(self,request,user_id):
-    form = CourseForm(request.POST)
-    if form.is_valid():
-      depart = form.cleaned_data['department']
-      year = form.cleaned_data['year']
-      semester = form.cleaned_data['semester']
-      kind_of = form.cleaned_data['kind_of']
-      if Course.objects.filter(department=depart,year=year,semester=semester,kind_of=kind_of).exists():
-        all_courses = Course.objects.filter(department=depart,year=year,semester=semester,kind_of=kind_of).values()
-        return render(request,"category.html",{'form':form,'all_courses':all_courses})
-      else:
-        return render(request,"category.html",{"error":"No results have been found",'form':form})
+    def post(self, request, user_id):
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            depart = form.cleaned_data["department"]
+            year = form.cleaned_data["year"]
+            semester = form.cleaned_data["semester"]
+            kind_of = form.cleaned_data["kind_of"]
+            if Course.objects.filter(
+                department=depart, year=year, semester=semester, kind_of=kind_of
+            ).exists():
+                all_courses = Course.objects.filter(
+                    department=depart, year=year, semester=semester, kind_of=kind_of
+                ).values()
+                return render(
+                    request, "category.html", {"form": form, "all_courses": all_courses}
+                )
+            else:
+                return render(
+                    request,
+                    "category.html",
+                    {"error": "No results have been found", "form": form},
+                )
 
-    return render(request,"category.html",{'form':form})
-
+        return render(request, "category.html", {"form": form})
 
 
 class HomeWorksView(View):
@@ -48,7 +61,7 @@ class HomeWorksView(View):
                 ).order_by("-ratings__average")
                 mylist = list(dict.fromkeys(homeworks))
                 return render(
-                    request, "HomeWorks.html", {"course": course, "homeworks": mylist, "1":"1"}
+                    request, "HomeWorks.html", {"course": course, "homeworks": mylist}
                 )
             elif value == "2":
                 course = Course.objects.get(id=course_id)
@@ -58,7 +71,7 @@ class HomeWorksView(View):
                 return render(
                     request,
                     "HomeWorks.html",
-                    {"course": course, "homeworks": homeworks, "2":"2"},
+                    {"course": course, "homeworks": homeworks},
                 )
             else:
                 course = Course.objects.get(id=course_id)
@@ -76,31 +89,42 @@ class HomeWorksView(View):
         )
 
 
-
 class UploadFileView(View):
     """
     UploadFileView
     """
-    def get(self,request, course_id , user_id):
-        form = HomeWorkForm(initial={'course': course_id})
-        return render(request,"upload_file.html",{'form':form})
-    
-    def post(self,request ,course_id, user_id):
+
+    def get(self, request, course_id, user_id):
+        form = HomeWorkForm(initial={"course": course_id})
+        return render(request, "upload_file.html", {"form": form})
+
+    def post(self, request, course_id, user_id):
         form = HomeWorkForm(request.POST, request.FILES)
         if form.is_valid():
             user = User.objects.get(id=user_id)
-            file = request.FILES.get('file')
-            homework = HomeWork.objects.create(nameFile=form.cleaned_data['nameFile'], file=file, course=form.cleaned_data['course'],user=user)
+            file = request.FILES.get("file")
+            imagekit_url = imagekit.upload_file(
+                            file =  base64.b64encode(file.read()), # required
+                            file_name= file.name, # required
+                            )
+            homework = HomeWork.objects.create(
+                nameFile=form.cleaned_data["nameFile"],
+                file=imagekit_url['response']['name'],
+                course=form.cleaned_data["course"],
+                user=user,
+            )
             homework.save()
-            return redirect('Category:homework',course_id ,user_id)
-        return render(request,"upload_file.html",{'form':form})
+            return redirect("Category:homework", course_id, user_id)
+        return render(request, "upload_file.html", {"form": form})
 
 
 class CreateCourseView(View):
     def get(self, request):
         form = CourseForm()
         folder = CreatCourseForm()
-        return render(request, "category.html", {"folder": folder, "form": form, "test":"test"})
+        return render(
+            request, "category.html", {"folder": folder, "form": form, "test": "test"}
+        )
 
     def post(self, request):
         form = CreatCourseForm(request.POST)
@@ -109,15 +133,13 @@ class CreateCourseView(View):
         return redirect("Category:cat", request.user.id)
 
 
-
 def deleteCourse(request, course_id):
     course = Course.objects.get(pk=course_id)
     course.delete()
     return redirect("Category:cat", request.user.id)
 
-   
-      
-def deleteFile(request,course_id,hw_id ):
-  hw = HomeWork.objects.get(pk=hw_id)
-  hw.delete()
-  return redirect('Category:homework',course_id, request.user.id)
+
+def deleteFile(request, course_id, hw_id):
+    hw = HomeWork.objects.get(pk=hw_id)
+    hw.delete()
+    return redirect("Category:homework", course_id, request.user.id)

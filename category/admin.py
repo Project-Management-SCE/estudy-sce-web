@@ -1,5 +1,5 @@
 from django.contrib import admin
-from category.models import Course,HomeWork
+from category.models import Course, HomeWork
 
 # Register your models here.
 

@@ -28,10 +28,23 @@ STATIC_DIR = os.path.join(BASE_DIR, "static")
 # SECURITY WARNING: keep the secret key used in production secret!
 
 
+DEFAULT_GRIDFS_URL = 'mongodb+srv://Estudy:5t4r3e2w1q@cluster0.yuqzy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority' 
+
+DEFAULT_GRIDFS_SERVE_URL = None  
+
+DEFAULT_GRIDFS_COLLECTION = 'storage'
+
+DEFAULT_FILE_STORAGE = 'gridfs_storage.storage.GridFSStorage'
+
+UPLOADED_FILES_USE_URL = True
+
+
 # SECRET_KEY = "django-insecure-$j+#%6nk5kuvsii6#je5#q!xwrb3e@)^-&9rmzd25$-edp1@fo"
 
-SECRET_KEY = env('DJANGO_SECRET_KEY',
-                 default='django-insecure-$j+#%6nk5kuvsii6#je5#q!xwrb3e@)^-&9rmzd25$-edp1@fo')
+SECRET_KEY = env(
+    "DJANGO_SECRET_KEY",
+    default="django-insecure-$j+#%6nk5kuvsii6#je5#q!xwrb3e@)^-&9rmzd25$-edp1@fo",
+)
 
 # SECRET_KEY = os.environ.get('SECRET_KEY', default='foo')
 
@@ -43,10 +56,14 @@ SECRET_KEY = env('DJANGO_SECRET_KEY',
 DEBUG = env.bool("DJANGO_DEBUG", True)
 
 
-
 AUTH_USER_MODEL = "accounts.User"
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'estudy-sce.herokuapp.com', 'estudy1.herokuapp.com']
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "estudy-sce.herokuapp.com",
+    "estudy1.herokuapp.com",
+]
 
 
 # Application definition
@@ -67,6 +84,7 @@ INSTALLED_APPS = [
     "star_ratings",
     "forum",
     "captcha",
+    "gridfs_storage",
 ]
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
@@ -124,7 +142,6 @@ else:
     }
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -170,7 +187,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     STATIC_DIR,
@@ -195,6 +212,4 @@ RECAPTCHA_PUBLIC_KEY = "6Le5CJEfAAAAACuE9OLsAhzPb5rrNFGr4FZdlVf4"
 RECAPTCHA_PRIVATE_KEY = "6Le5CJEfAAAAAFnHoQav2eiq0l8Dh5_foagL4UAL"
 
 
-
 YOUTUBE_DATA_API_KEY = "AIzaSyB8y7m6JoevtDQai4vCH0VzTejuEy-EiSQ"
-
