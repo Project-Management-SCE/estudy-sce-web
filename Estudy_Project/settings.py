@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 from pathlib import Path
 import os
+from pickle import FALSE
 import sys
 
 import environ
@@ -53,7 +54,12 @@ SECRET_KEY = env(
 
 # DEBUG = True
 # DEBUG = int(os.environ.get('DEBUG', default=0))
-DEBUG = env.bool("DJANGO_DEBUG", True)
+DEBUG = env.bool("DJANGO_DEBUG", FALSE)
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://estudy-sce.herokuapp.com',
+    'https://estudy1.herokuapp.com',
+]
 
 
 AUTH_USER_MODEL = "accounts.User"
