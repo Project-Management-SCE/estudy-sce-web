@@ -3,7 +3,7 @@ from django.urls import reverse,resolve
 from YouTube.views import SearchVideoView
 # Create your tests here.
 
-@tag('y')
+@tag('unit-test')
 class YouTubeTest(TestCase):
 
   def test_url(self):
