@@ -1,0 +1,42 @@
+{% extends 'fourm.html' %}
+
+{% block style %}
+
+{% endblock style %}
+
+
+{% block content %}
+<div class="row" style="margin-left: 150px;">
+  {% for comment in comments %}   
+  <div class="col-md-4" style="flex: 0 0 auto; width: auto;">
+    <div class="container mt-5">
+      <div class="d-flex justify-content-center row">
+        <div class="col-md-8">
+          <div class="d-flex flex-column comment-section">
+            <div class="bg-white p-2">
+              <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{comment.user.imag_profile.url}}" style="width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                object-fit: cover;">
+                <div class="d-flex flex-column justify-content-start ml-2">
+                  {% comment %} <span class="d-block font-weight-bold name">{{comment.user.first_name}} {{comment.user.last_name}}</span> {% endcomment %}
+                  <span class="date text-black-50">Shared publicly - {{comment.date}}</span>
+                </div>
+              </div>           
+            </div>
+            <p class="comment-text">{{comment.message|linebreaks}}</p>
+          </div>
+          <div class="d-flex flex-row fs-12">
+            <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
+            <div class="like p-2 cursor">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ </div>
+ {% endfor %}
+</div>
+  
+
+{% endblock content %}
