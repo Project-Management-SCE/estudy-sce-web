@@ -14,4 +14,6 @@ urlpatterns = [
     path("del/<course_id>", views.deleteCourse, name="delete-course"),
     path("upload/", views.CreateCourseView.as_view(), name="create-course"),
     path("delfile/<course_id>/<hw_id>", views.deleteFile, name="delete-file"),
+    path("forumFile/<hw_id>", views.ForumFileView.as_view(), name="forum-file"),
+    path("delComment/<int:comment_id>/<hw_id>", views.DeleteComment, name="delete-co"),
 ]

@@ -198,3 +198,30 @@ class HomeWorksTest(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["2"], "2")
+
+
+######################################################
+class ForumTest(TestCase):
+    def setUp(self):
+        self.credentials = {
+            "username": "studentuser",
+            "password": "5t4r3e2w1q",
+            "is_student": True,
+        }
+        self.user = User.objects.create_user(**self.credentials)
+        self.course = Course.objects.create(name_course="testCourse")
+        self.hw = HomeWork.objects.create(
+            user=self.user, course=self.course, nameFile="hwTest"
+        )
+
+    @tag("unit-test")
+    def test_showforum(self):
+        # Act
+        url = reverse("Category:forum-file",kwargs={'hw_id':self.hw.id})
+        # Assert
+        self.assertEqual(resolve(url).func.view_class, ForumFileView)
+
+    @tag("unit-test")
+    def test_post_forum(self):
+        response = self.client.post(reverse("Category:forum-file",kwargs={'hw_id':self.hw.id}), data={'hw_id':self.hw.id})
+        self.assertEqual(response.status_code,302)

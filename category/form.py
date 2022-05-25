@@ -1,5 +1,5 @@
 from django import forms
-from category.models import Course, HomeWork
+from category.models import Course, HomeWork, CommentHomeWork
 
 
 class CourseForm(forms.ModelForm):
@@ -25,4 +25,18 @@ class CreatCourseForm(forms.ModelForm):
                     "class": "bg-light form-control",
                 }
             ),
+        }
+
+
+class CommentHomeWorkForm(forms.ModelForm):
+    class Meta:
+        model = CommentHomeWork
+        fields = ("message",)
+        widgets = {
+            "message": forms.Textarea(
+                attrs={
+                    "class": "form-control ml-1 shadow-none textarea",
+                    "style": "height: 90px;",
+                }
+            )
         }

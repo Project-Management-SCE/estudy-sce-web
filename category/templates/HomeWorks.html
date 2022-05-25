@@ -270,6 +270,10 @@ option{
          {% if user.id == hw.user.id or user.is_superuser%}
          <br>
          <button type="button" class="btn btn-danger"><a style="color:white; text-decoration: none;" href="{% url 'Category:delete-file' course.id hw.id%}">Delete File</a></button>
+         <button type="button" class="btn btn-dark"><a style="color:white; text-decoration: none;" href="{% url 'Category:forum-file' hw.id%}">תגובה על המחברת</a></button>
+         {% else %}
+         <br>
+         <button type="button" class="btn btn-dark"><a style="color:white; text-decoration: none;" href="{% url 'Category:forum-file' hw.id%}">תגובה על המחברת</a></button>
          {% endif %}
       </div>
         <br>

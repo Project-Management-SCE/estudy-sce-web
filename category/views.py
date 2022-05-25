@@ -1,8 +1,8 @@
 from django.shortcuts import redirect, render
 from django.views import View
 from category.models import HomeWork
-from category.form import CourseForm, HomeWorkForm, CreatCourseForm
-from category.models import Course
+from category.form import CourseForm, HomeWorkForm, CreatCourseForm, CommentHomeWorkForm
+from category.models import Course, CommentHomeWork
 from accounts.models import Student, User
 from imagekitio import ImageKit
 import base64
@@ -145,3 +145,41 @@ def deleteFile(request, course_id, hw_id):
     hw = HomeWork.objects.get(pk=hw_id)
     hw.delete()
     return redirect("Category:homework", course_id, request.user.id)
+
+
+
+
+class ForumFileView(View):
+    """
+    ForumFileView
+    """
+    def get(self, request, hw_id):
+        hw = HomeWork.objects.get(pk=hw_id)
+        comments = CommentHomeWork.objects.filter(hw=hw).iterator()
+        comment = CommentHomeWorkForm()
+        return render(
+            request,
+            "ForumFile.html",
+            {"hw": hw, "comments": comments, "form_comment": comment},
+        )
+
+    def post(self, request, hw_id):
+        form = CommentHomeWorkForm(request.POST)
+        if form.is_valid():
+            user = User.objects.get(pk=request.user.id)
+            hw = HomeWork.objects.get(pk=hw_id)
+            comment = CommentHomeWork.objects.create(
+                user=user, hw=hw, message=form.cleaned_data["message"]
+            )
+            comment.save()
+        return redirect("Category:forum-file", hw_id)
+
+
+def DeleteComment(request, comment_id, hw_id):
+    """
+    DeleteComment
+    """
+    comment = CommentHomeWork.objects.get(pk=comment_id)
+    comment.delete()
+    return redirect("Category:forum-file", hw_id)
+

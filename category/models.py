@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from accounts.models import User
 from django.contrib.contenttypes.fields import GenericRelation
@@ -64,3 +65,10 @@ class HomeWork(models.Model):
 
     def __str__(self):
         return str(self.nameFile)
+
+
+class CommentHomeWork(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    hw = models.ForeignKey(HomeWork, on_delete=models.CASCADE)
+    message = models.TextField(max_length=256, null=True)
+    date = models.DateField(default=datetime.date.today)
