@@ -34,3 +34,14 @@ class CategoryView(View):
             "ForumFile.html",
             {"hw": hw, "comments": comments, "form_comment": comment},
         )
+      
+      def post(self, request, hw_id):
+        form = CommentHomeWorkForm(request.POST)
+        if form.is_valid():
+            user = User.objects.get(pk=request.user.id)
+            hw = HomeWork.objects.get(pk=hw_id)
+            comment = CommentHomeWork.objects.create(
+                user=user, hw=hw, message=form.cleaned_data["message"]
+            )
+            comment.save()
+        return redirect("Category:forum-file", hw_id)
