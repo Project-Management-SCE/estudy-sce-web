@@ -4,8 +4,15 @@ from category.models import User
 from django.urls import resolve, reverse
 from category.form import CreatCourseForm, CourseForm
 from category.apps import CategoryConfig
-from category.views import CategoryView, HomeWorksView, UploadFileView, deleteFile
-
+from category.views import (
+    CategoryView,
+    HomeWorksView,
+    UploadFileView,
+    CreateCourseView,
+    ForumFileView,
+    deleteCourse,
+    deleteFile,
+)
 # Create your tests here.
 
 ######################################################################
