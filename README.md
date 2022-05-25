@@ -22,7 +22,7 @@ Also you can enjoy the site through this link
 https://estudy-sce.herokuapp.com/
 ```
 ## The Tools & Languages we work with
-<a href="#"><img height="25" src="https://vk-codes.com/assests/images/icons/pycharm.png"></a> <a><img src="https://img.icons8.com/color/48/000000/django.png"/></a> <a><img src="https://img.icons8.com/office/30/000000/database.png"/></a><a><img src="https://img.icons8.com/external-tal-revivo-shadow-tal-revivo/24/000000/external-mongodb-a-cross-platform-document-oriented-database-program-logo-shadow-tal-revivo.png"/> <a><img src="https://img.icons8.com/external-tal-revivo-color-tal-revivo/24/000000/external-python-an-interpreted-high-level-general-purpose-programming-language-logo-color-tal-revivo.png"/></a> <a><img src="https://img.icons8.com/color/48/000000/visual-studio-code-2019.png"/ height=30></a>
+<a href="#"><img height="25" src="https://vk-codes.com/assests/images/icons/pycharm.png"></a> <a><img src="https://img.icons8.com/color/48/000000/django.png"/></a> <a><img src="https://img.icons8.com/office/30/000000/database.png"/></a><a><img src="https://img.icons8.com/external-tal-revivo-shadow-tal-revivo/24/000000/external-mongodb-a-cross-platform-document-oriented-database-program-logo-shadow-tal-revivo.png"/> <a><img src="https://img.icons8.com/external-tal-revivo-color-tal-revivo/24/000000/external-python-an-interpreted-high-level-general-purpose-programming-language-logo-color-tal-revivo.png"/></a> <a><img src="https://img.icons8.com/color/48/000000/visual-studio-code-2019.png"/></a>
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
