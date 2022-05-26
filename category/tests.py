@@ -13,6 +13,7 @@ from category.views import (
     deleteCourse,
     deleteFile,
 )
+
 # Create your tests here.
 
 ######################################################################
@@ -224,11 +225,14 @@ class ForumTest(TestCase):
     @tag("unit-test")
     def test_showforum(self):
         # Act
-        url = reverse("Category:forum-file",kwargs={'hw_id':self.hw.id})
+        url = reverse("Category:forum-file", kwargs={"hw_id": self.hw.id})
         # Assert
         self.assertEqual(resolve(url).func.view_class, ForumFileView)
 
     @tag("unit-test")
     def test_post_forum(self):
-        response = self.client.post(reverse("Category:forum-file",kwargs={'hw_id':self.hw.id}), data={'hw_id':self.hw.id})
-        self.assertEqual(response.status_code,302)
+        response = self.client.post(
+            reverse("Category:forum-file", kwargs={"hw_id": self.hw.id}),
+            data={"hw_id": self.hw.id},
+        )
+        self.assertEqual(response.status_code, 302)

@@ -13,16 +13,16 @@
     --surface-color: #f8f9fa;
     --curve: 40;
   }
-
+  
   * {
     box-sizing: border-box;
   }
-
+  
   body {
     font-family: "Noto Sans JP", sans-serif;
     background-color: #f8f9fa;
   }
-
+  
   .cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -31,7 +31,7 @@
     padding: 0;
     list-style-type: none;
   }
-
+  
   .card {
     position: relative;
     display: block;
@@ -41,12 +41,12 @@
     overflow: hidden;
     text-decoration: none;
   }
-
+  
   .card__image {
     width: 480px;
     height: 360px;
   }
-
+  
   .card__overlay {
     position: absolute;
     bottom: 0;
@@ -58,11 +58,11 @@
     transform: translateY(100%);
     transition: 0.2s ease-in-out;
   }
-
+  
   .card:hover .card__overlay {
     transform: translateY(0);
   }
-
+  
   .card__header {
     position: relative;
     display: flex;
@@ -74,7 +74,7 @@
     transform: translateY(-100%);
     transition: 0.2s ease-in-out;
   }
-
+  
   .card__arc {
     width: 80px;
     height: 80px;
@@ -83,29 +83,29 @@
     right: 0;
     z-index: 1;
   }
-
+  
   .card__arc path {
     fill: var(--surface-color);
     d: path("M 40 80 c 22 0 40 -22 40 -40 v 40 Z");
   }
-
+  
   .card:hover .card__header {
     transform: translateY(0);
   }
-
+  
   .card__thumb {
     flex-shrink: 0;
     width: 50px;
     height: 50px;
     border-radius: 50%;
   }
-
+  
   .card__title {
     font-size: 1em;
     margin: 0 0 0.3em;
     color: black;
   }
-
+  
   .card__tagline {
     display: block;
     margin: 1em 0;
@@ -113,12 +113,12 @@
     font-size: 0.8em;
     color: black;
   }
-
+  
   .card__status {
     font-size: 0.8em;
     color: black;
   }
-
+  
   .card__description {
     padding: 0 2em 2em;
     margin: 0;
@@ -129,13 +129,13 @@
     -webkit-line-clamp: 3;
     overflow: hidden;
   }
-
+  
   input[type=text] {
     width: 130px;
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
   }
-
+  
   /* When the input field gets focus, change its width to 100% */
   input[type=text]:focus {
     width: 100%;
@@ -190,16 +190,19 @@ width: auto;">
             <img src="{{video.thumbnails}}" class="card__image" alt="" />
             <div class="card__overlay">
               <div class="card__header">
-                <svg class="card__arc" xmlns=""><path /></svg>
+                <svg class="card__arc" xmlns=""><path /></svg>                     
                 <img class="card__thumb" src="{{video.profile}}" alt="" />
                 <div class="card__header-text">
-                  <h3 class="card__title"><b>{{video.title}}</b></h3>
+                  <h3 class="card__title"><b>{{video.title}}</b></h3>            
                 </div>
               </div>
               <p class="card__description">{{video.description}}</p>
             </div>
           </a>  
-        </li>
+          {% if user.is_lecturer or user.is_superuser %}
+            <button type="button" class="btn btn-info" style="margin-left: 188px; margin-top: 5px;"><a href="{% url 'YouTube:save-video' video.index %}" style="text-decoration: none; color:white;">Save</a></button>    
+          {% endif %}
+        </li>  
       </ul>
 </div>
 {% endfor %}

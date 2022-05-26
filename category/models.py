@@ -4,6 +4,7 @@ from accounts.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from star_ratings.models import Rating
 from gridfs_storage.storage import GridFSStorage
+
 # Create your models here.
 
 # Define your GrifFSStorage instance
@@ -60,7 +61,12 @@ class HomeWork(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     nameFile = models.CharField("Name File", max_length=30)
-    file = models.FileField("File", upload_to="files", null=True, storage=GridFSStorage(base_url="https://ik.imagekit.io/zyae7okkm/"))
+    file = models.FileField(
+        "File",
+        upload_to="files",
+        null=True,
+        storage=GridFSStorage(base_url="https://ik.imagekit.io/zyae7okkm/"),
+    )
     ratings = GenericRelation(Rating, related_query_name="homework")
 
     def __str__(self):
@@ -72,3 +78,19 @@ class CommentHomeWork(models.Model):
     hw = models.ForeignKey(HomeWork, on_delete=models.CASCADE)
     message = models.TextField(max_length=256, null=True)
     date = models.DateField(default=datetime.date.today)
+
+
+
+class YouTubeVideo(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
+    channelId = models.CharField(max_length=100)
+    IdVideo = models.CharField(max_length=100)
+    profile = models.URLField()
+    title = models.CharField(max_length=256)
+    thumbnails = models.URLField()
+    ratings = GenericRelation(Rating, related_query_name="youtubevideo")
+
+    def __str__(self):
+        return str(self.channelId)

@@ -1,15 +1,16 @@
 from django.shortcuts import redirect, render
 from django.views import View
-from category.models import HomeWork
+from category.models import HomeWork, YouTubeVideo
 from category.form import CourseForm, HomeWorkForm, CreatCourseForm, CommentHomeWorkForm
 from category.models import Course, CommentHomeWork
 from accounts.models import Student, User
 from imagekitio import ImageKit
 import base64
+
 imagekit = ImageKit(
-    private_key='private_0InZG7wQykta/PjGyhg2Nk14fAw=',
-    public_key='public_wI6Gnx1NNvSxeDBJlqi27qErJO8=',
-    url_endpoint='https://ik.imagekit.io/zyae7okkm'
+    private_key="private_0InZG7wQykta/PjGyhg2Nk14fAw=",
+    public_key="public_wI6Gnx1NNvSxeDBJlqi27qErJO8=",
+    url_endpoint="https://ik.imagekit.io/zyae7okkm",
 )
 
 # Create your views here.
@@ -106,12 +107,12 @@ class UploadFileView(View):
             user = User.objects.get(id=user_id)
             file = request.FILES.get("file")
             imagekit_url = imagekit.upload_file(
-                            file =  base64.b64encode(file.read()), # required
-                            file_name= file.name, # required
-                            )
+                file=base64.b64encode(file.read()),  # required
+                file_name=file.name,  # required
+            )
             homework = HomeWork.objects.create(
                 nameFile=form.cleaned_data["nameFile"],
-                file=imagekit_url['response']['name'],
+                file=imagekit_url["response"]["name"],
                 course=form.cleaned_data["course"],
                 user=user,
             )
@@ -147,12 +148,41 @@ def deleteFile(request, course_id, hw_id):
     return redirect("Category:homework", course_id, request.user.id)
 
 
+class VideoView(View):
+    """
+    VideoView
+    """
+
+    def get(self, request, course_id):
+        if bool(request.GET):
+            value = request.GET["selecting"]
+            if value == "1":
+                course = Course.objects.get(id=course_id)
+                videos = (
+                    YouTubeVideo.objects.filter(course=course, ratings__isnull=False)
+                ).order_by("-ratings__average")
+                mylist = list(dict.fromkeys(videos))
+                return render(
+                    request, "videos.html", {"course": course, "videos": mylist}
+                )
+            elif value == "2":
+                course = Course.objects.get(id=course_id)
+                videos = (YouTubeVideo.objects.filter(course=course)).order_by("-title")
+                return render(
+                    request, "videos.html", {"course": course, "videos": videos}
+                )
+        else:
+            course = Course.objects.get(id=course_id)
+            videos = YouTubeVideo.objects.filter(course=course)
+        return render(request, "videos.html", {"course": course, "videos": videos})
+
 
 
 class ForumFileView(View):
     """
     ForumFileView
     """
+
     def get(self, request, hw_id):
         hw = HomeWork.objects.get(pk=hw_id)
         comments = CommentHomeWork.objects.filter(hw=hw).iterator()
@@ -183,3 +213,8 @@ def DeleteComment(request, comment_id, hw_id):
     comment.delete()
     return redirect("Category:forum-file", hw_id)
 
+
+def deleteVideo(request, course_id, video_id):
+    video = YouTubeVideo.objects.get(id=video_id)
+    video.delete()
+    return redirect("Category:videos", course_id)
