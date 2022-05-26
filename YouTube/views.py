@@ -1,15 +1,22 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from YouTube.models import YouTube
+import requests
 from django.conf import settings
+from YouTube.models import YouTube
+from YouTube.form import CourseForm, CreatCourseForm, YouTubeForm, YouTubeVideoForm
+from category.models import Course, YouTubeVideo
+from accounts.models import User
+
+# Create your views here.
 
 SEARCH = ""
+
 
 class SearchVideoView(View):
     def get(self, request):
         YouTube.objects.all().delete()
         return render(request, "youtube.html")
-    
+
     def post(self, request):
         SEARCH = request.POST["search"]
         if SEARCH != "":
@@ -93,3 +100,122 @@ class SearchVideoView(View):
 
             return render(request, "youtube.html", {"videos": new_list})
         return render(request, "youtube.html", {"Empty": "אנא מלא את השדה"})
+
+
+class SaveVideoView(View):
+    def get(self, request, video_index):
+        form_course = CourseForm(initial={"kind_of": "5"})
+        return render(
+            request, "save.html", {"form": form_course, "video_index": video_index}
+        )
+
+    def post(self, request, video_index):
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            depart = form.cleaned_data["department"]
+            year = form.cleaned_data["year"]
+            semester = form.cleaned_data["semester"]
+            kind_of = form.cleaned_data["kind_of"]
+            if Course.objects.filter(
+                department=depart, year=year, semester=semester, kind_of=kind_of
+            ).exists():
+                all_courses = Course.objects.filter(
+                    department=depart, year=year, semester=semester, kind_of=kind_of
+                ).values()
+                return render(
+                    request,
+                    "save.html",
+                    {
+                        "form": form,
+                        "all_courses": all_courses,
+                        "video_index": video_index,
+                    },
+                )
+            else:
+                return render(
+                    request,
+                    "save.html",
+                    {
+                        "error": "No results have been found",
+                        "form": form,
+                        "video_index": video_index,
+                    },
+                )
+        return render(request, "save.html", {"form": form, "video_index": video_index})
+
+
+class CreateCourseView(View):
+    def get(self, request, video_index):
+        folder = CreatCourseForm(initial={"kind_of": "5"})
+        form = CourseForm(initial={"kind_of": "5"})
+        return render(
+            request,
+            "save.html",
+            {"folder": folder, "form": form, "video_index": video_index},
+        )
+
+    def post(self, request, video_index):
+        form = CreatCourseForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect("YouTube:save-video", video_index)
+
+
+class YouTubeVideoView(View):
+    def get(self, request, course_id, user_id, video_index):
+        youtube = YouTube.objects.filter(index=video_index).first()
+        user = User.objects.get(id=user_id)
+        course = Course.objects.get(id=course_id)
+        form = YouTubeVideoForm(
+            initial={"course": course, "user": user}, instance=youtube
+        )
+        return render(
+            request,
+            "YoTubeVideo.html",
+            {
+                "course_id": course_id,
+                "user_id": user_id,
+                "video_index": video_index,
+                "form": form,
+            },
+        )
+
+    def post(self, request, course_id, user_id, video_index):
+        form = YouTubeVideoForm(request.POST)
+        if form.is_valid():
+            id = YouTubeVideo.objects.count() + 1
+            user = User.objects.get(id=user_id)
+            course = Course.objects.get(id=course_id)
+            you = YouTubeVideo.objects.create(
+                id=id,
+                user=user,
+                course=course,
+                channelId=form.cleaned_data["channelId"],
+                IdVideo=form.cleaned_data["IdVideo"],
+                profile=form.cleaned_data["profile"],
+                title=form.cleaned_data["title"],
+                thumbnails=form.cleaned_data["thumbnails"],
+            )
+            print("SUCCESSSSSS")
+            return redirect("Category:cat", user_id)
+        return render(
+            request,
+            "YoTubeVideo.html",
+            {
+                "course_id": course_id,
+                "user_id": user_id,
+                "video_index": video_index,
+                "form": form,
+            },
+        )
+
+
+#  def post(self,request ,course_id, user_id):
+#     form = HomeWorkForm(request.POST, request.FILES)
+#     if form.is_valid():
+#       user = User.objects.get(id=user_id)
+#       file = request.FILES.get('file')
+#       homework = HomeWork.objects.create(nameFile=form.cleaned_data['nameFile'], file=file, course=form.cleaned_data['course'],user=user)
+#       homework.save()
+#       return redirect('Category:homework',course_id ,user_id)
+#     return render(request,"upload_file.html",{'form':form})
