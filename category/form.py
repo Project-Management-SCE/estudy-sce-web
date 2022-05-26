@@ -1,10 +1,11 @@
 from django import forms
 from category.models import Course, HomeWork, CommentHomeWork
 
+
 class CourseForm(forms.ModelForm):
-  class Meta:
-    model = Course
-    fields = ('department','year','semester','kind_of')
+    class Meta:
+        model = Course
+        fields = ("department", "year", "semester", "kind_of")
 
 
 class CreatCourseForm(forms.ModelForm):
