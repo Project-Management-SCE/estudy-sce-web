@@ -220,3 +220,17 @@ RECAPTCHA_PRIVATE_KEY = "6Le5CJEfAAAAAFnHoQav2eiq0l8Dh5_foagL4UAL"
 
 
 YOUTUBE_DATA_API_KEY = "AIzaSyB8y7m6JoevtDQai4vCH0VzTejuEy-EiSQ"
+
+
+
+
+#mail service
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = 'estudy.sce@gmail.com'
+SERVER_EMAIL = 'estudy.sce@gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'estudy.sce@gmail.com'
+EMAIL_HOST_PASSWORD = '5t4r3e2w1q'
+
