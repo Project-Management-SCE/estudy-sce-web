@@ -78,6 +78,13 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">
               {% if user.is_authenticated %}
+                  {% if user.is_superuser %}
+                      <p class="nav-link active" aria-current="page" href="" id="userName"><b>Admin</b></p>
+                  {% elif user.is_student %}
+                      <p class="nav-link active" aria-current="page" href="" id="userName"><b>Student</b></p>
+                  {% elif user.is_lecturer%}
+                      <p class="nav-link active" aria-current="page" href="" id="userName"><b>lecturer</b></p>
+                  {% endif %}
                   <p class="nav-link active" aria-current="page" href="" id="userName"><b>{{user.username}}</b></p>
                   <a class="nav-link" href="{% url 'HomePage:about' %}"><b>about</b></a>
                   <a class="nav-link" href="{% url 'logout' %}"><b>log out</b></a>
