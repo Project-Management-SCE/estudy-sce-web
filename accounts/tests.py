@@ -220,7 +220,6 @@ class LecturerTestCase(TestCase):
         self.assertEqual(hadas.is_lecturer, True)
 
 
-@tag("integration-test")
 class LogInTest(TestCase):
     def setUp(self):
         self.credentials = {"username": "testuser", "password": "5t4r3e2w1q"}
@@ -260,7 +259,6 @@ class LogInTest(TestCase):
         self.assertTrue(response.context["user"].is_lecturer)
 
 
-@tag("integration-test")
 class LogOutTest(TestCase):
     def setUp(self):
         self.credentials = {
@@ -319,7 +317,7 @@ class LoginViewTest(TestCase):
     @tag("integration-test")
     def test_login_and_logout_admin(self):
         # Arrange
-        login_form_data = {"username": "testuser", "password": "5t4r3e2w1q"}
+        login_form_data = {"username": "testuser", "password": "5t4r3e2w1q", "is_superuser":True}
 
         # Act
         response = self.client.post(reverse("login"), data=login_form_data, follow=True)
@@ -328,6 +326,7 @@ class LoginViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertRedirects(response, reverse("HomePage:home"))
         self.assertTrue(response.context["user"].is_authenticated)
+        self.assertTrue(response.context["user"].is_superuser)
 
         # Act
         response = self.client.post("/acoounts/logout/", follow=True)
@@ -337,10 +336,11 @@ class LoginViewTest(TestCase):
         self.assertFalse(response.context["user"].is_authenticated)
 
     @tag("integration-test")
-    def test_login_and_logout_user(self):
+    def test_login_and_logout_user_student(self):
         self.credentials = {
-            "username": "lectureruser",
+            "username": "student",
             "password": "5t4r3e2w1q",
+            "is_student":True,
         }
         User.objects.create_user(**self.credentials)
         # Act
@@ -349,6 +349,30 @@ class LoginViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertRedirects(response, reverse("HomePage:home"))
         self.assertTrue(response.context["user"].is_authenticated)
+        self.assertTrue(response.context["user"].is_student)
+
+        # Act
+        response = self.client.post("/acoounts/logout/", follow=True)
+        # Assert
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context["user"].is_authenticated)
+
+
+    @tag("integration-test")
+    def test_login_and_logout_user_lecturer(self):
+        self.credentials = {
+            "username": "lecturer",
+            "password": "5t4r3e2w1q",
+            "is_lecturer":True,
+        }
+        User.objects.create_user(**self.credentials)
+        # Act
+        response = self.client.post("/acoounts/login/", self.credentials, follow=True)
+        # Assert
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, reverse("HomePage:home"))
+        self.assertTrue(response.context["user"].is_authenticated)
+        self.assertTrue(response.context["user"].is_lecturer)
 
         # Act
         response = self.client.post("/acoounts/logout/", follow=True)
